@@ -6,15 +6,23 @@ import {
   getFocusForSignal,
 } from "@/lib/careFocus";
 import { ConditionUpdate } from "@/lib/conditionUpdates";
+import { getConditionAttentionNote } from "@/lib/dogConditions";
 
 type TodayFocusProps = {
+  dogCondition: string | null;
+  dogName: string;
   latestUpdate: ConditionUpdate | null;
 };
 
-export function TodayFocus({ latestUpdate }: TodayFocusProps) {
+export function TodayFocus({
+  dogCondition,
+  dogName,
+  latestUpdate,
+}: TodayFocusProps) {
   const focus = latestUpdate
     ? getFocusForSignal(latestUpdate.signal)
     : defaultFocus;
+  const attentionNote = getConditionAttentionNote(dogCondition, dogName);
 
   return (
     <Card>
@@ -39,6 +47,14 @@ export function TodayFocus({ latestUpdate }: TodayFocusProps) {
       <p className="mt-5 rounded-xl border border-soft-border bg-soft p-3 text-sm leading-6 text-secondary">
         {focus.reassurance}
       </p>
+      {attentionNote ? (
+        <div className="mt-4 rounded-xl border border-border bg-background p-3">
+          <SectionLabel>Extra attention today</SectionLabel>
+          <p className="mt-2 text-sm leading-6 text-secondary">
+            {attentionNote}
+          </p>
+        </div>
+      ) : null}
     </Card>
   );
 }
