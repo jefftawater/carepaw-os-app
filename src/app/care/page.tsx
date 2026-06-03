@@ -20,19 +20,23 @@ const careCategories = [
   {
     title: "Comfort + pain cues",
     description: "Watch movement + discomfort",
+    href: "/care/comfort-pain",
   },
   {
     title: "Skin + hygiene",
     description:
       "Check pressure spots, paws, bedding, and cleanliness",
+    href: "/care/skin-hygiene",
   },
   {
     title: "Mobility support",
     description: "Support safe movement, positioning, and rest",
+    href: "/care/mobility-support",
   },
   {
     title: "Routine reminders",
     description: "Nails, ears, meds, supplies, and weekly care tasks",
+    href: "/care/routine-reminders",
   },
 ];
 

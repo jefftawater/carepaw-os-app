@@ -6,6 +6,7 @@ import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 
 export default async function MentalStimulationPage() {
   const dog = await requireActiveDog();
+  const dogName = dog.name?.trim() || "them";
 
   return (
     <AppShell title="Mental Stimulation">
@@ -47,7 +48,11 @@ export default async function MentalStimulationPage() {
       <CareLogActions
         dogId={dog.id}
         options={[
-          { key: "mental_stimulation_helped", label: "Helped Max settle" },
+          {
+            key: "mental_stimulation_helped",
+            label: `Helped ${dogName} settle`,
+            note: `Mental stimulation helped ${dogName} settle.`,
+          },
           { key: "still_restless", label: "Still restless" },
         ]}
         title="Did this help?"

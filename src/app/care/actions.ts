@@ -17,7 +17,7 @@ const careLogActions: Record<
   }
 > = {
   mental_stimulation_helped: {
-    note: "Mental stimulation helped Max settle.",
+    note: "Mental stimulation helped them settle.",
     signal: "mental_stimulation_helped",
     success: "Logged that mental stimulation helped.",
   },
@@ -36,6 +36,46 @@ const careLogActions: Record<
     signal: "bathroom_changes",
     success: "Logged bathroom changes.",
   },
+  comfort_stable: {
+    note: "Comfort cues looked stable today.",
+    signal: "comfort_stable",
+    success: "Logged stable comfort cues.",
+  },
+  more_uncomfortable: {
+    note: "More uncomfortable cues noticed today.",
+    signal: "more_uncomfortable",
+    success: "Logged more uncomfortable cues.",
+  },
+  skin_checked_clear: {
+    note: "Skin and hygiene check looked clear today.",
+    signal: "skin_checked_clear",
+    success: "Logged a clear skin check.",
+  },
+  skin_concern: {
+    note: "Skin or hygiene concern noticed today.",
+    signal: "skin_concern",
+    success: "Logged a skin or hygiene concern.",
+  },
+  mobility_supported: {
+    note: "Mobility support worked well today.",
+    signal: "mobility_supported",
+    success: "Logged that mobility support worked.",
+  },
+  mobility_more_difficult: {
+    note: "Mobility seemed more difficult today.",
+    signal: "mobility_more_difficult",
+    success: "Logged that mobility was harder.",
+  },
+  routine_completed: {
+    note: "Routine care tasks were completed today.",
+    signal: "routine_completed",
+    success: "Logged completed routine care.",
+  },
+  routine_missed: {
+    note: "A routine care task got missed today.",
+    signal: "routine_missed",
+    success: "Logged a missed routine task.",
+  },
 };
 
 export async function logCareAction(
@@ -44,6 +84,7 @@ export async function logCareAction(
 ): Promise<CareLogActionState> {
   const dogId = String(formData.get("dogId") ?? "").trim();
   const actionKey = String(formData.get("actionKey") ?? "").trim();
+  const customNote = String(formData.get(`${actionKey}Note`) ?? "").trim();
   const careAction = careLogActions[actionKey];
 
   if (!dogId) {
@@ -55,7 +96,11 @@ export async function logCareAction(
   }
 
   try {
-    await createConditionUpdate(dogId, careAction.signal, careAction.note);
+    await createConditionUpdate(
+      dogId,
+      careAction.signal,
+      customNote || careAction.note,
+    );
   } catch (error) {
     console.error("CarePaw care detail log failed", {
       actionKey,

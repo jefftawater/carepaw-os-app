@@ -8,6 +8,14 @@ export const conditionSignals = [
   "more_restless",
   "bathroom_normal",
   "bathroom_changes",
+  "comfort_stable",
+  "more_uncomfortable",
+  "skin_checked_clear",
+  "skin_concern",
+  "mobility_supported",
+  "mobility_more_difficult",
+  "routine_completed",
+  "routine_missed",
 ] as const;
 
 export type ConditionSignal = (typeof conditionSignals)[number];
@@ -44,7 +52,7 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     title: "Keep activity calm, close, and predictable today.",
     bullets: [
       "Try a short food scatter or slow treat search",
-      "Stay near Max without turning restlessness into play",
+      "Stay nearby without turning restlessness into play",
       "Lower stimulation if barking or pacing increases",
     ],
     reassurance: "Restless energy is information. Calm structure is enough today.",
@@ -109,13 +117,93 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     ],
     reassurance: "Comfort is a valid care goal. A quieter day can still be a good day.",
   },
+  more_uncomfortable: {
+    label: "Comfort + Pain Cues focus",
+    title: "Prioritize comfort cues and easier movement today.",
+    bullets: [
+      "Watch repeated hesitation, guarding, or discomfort cues",
+      "Keep transitions slow and supported",
+      "Make notes about patterns that repeat",
+    ],
+    reassurance: "Comfort changes are worth noticing early. A smaller day can be good care.",
+  },
+  comfort_stable: {
+    label: "Routine Stability focus",
+    title: "Keep comfort steady with the rhythm that is working.",
+    bullets: [
+      "Keep transitions slow and predictable",
+      "Maintain bedding and positioning that helped",
+      "Watch comfort cues without adding extra activity",
+    ],
+    reassurance: "Stable comfort cues are useful information. Maintenance is care too.",
+  },
+  skin_checked_clear: {
+    label: "Routine Stability focus",
+    title: "Keep the skin and hygiene rhythm simple today.",
+    bullets: [
+      "Keep bedding dry and smooth",
+      "Repeat the quick pressure-point check",
+      "Watch for changes without overchecking",
+    ],
+    reassurance: "A clear check is worth logging. Small prevention work adds up.",
+  },
+  skin_concern: {
+    label: "Skin + Hygiene focus",
+    title: "Keep skin checks gentle, clean, and consistent today.",
+    bullets: [
+      "Check pressure points and damp areas",
+      "Keep bedding dry and smooth",
+      "Track any spot that changes or repeats",
+    ],
+    reassurance: "Small skin changes are easier to support when they are noticed early.",
+  },
+  mobility_supported: {
+    label: "Mobility Support maintenance",
+    title: "Repeat the support pattern that helped movement feel safer.",
+    bullets: [
+      "Use slow, supported transitions",
+      "Keep paths clear and predictable",
+      "Stop before fatigue starts to build",
+    ],
+    reassurance: "Good support is not about doing more. It is about making movement safer.",
+  },
+  mobility_more_difficult: {
+    label: "Mobility Support focus",
+    title: "Make movement smaller, slower, and more supported today.",
+    bullets: [
+      "Add traction where slipping happens",
+      "Pause between movement attempts",
+      "Reduce extra transitions where possible",
+    ],
+    reassurance: "Harder movement days are information. Adjusting support is good care.",
+  },
+  routine_completed: {
+    label: "Routine Stability focus",
+    title: "Keep the care rhythm simple and repeatable today.",
+    bullets: [
+      "Stay close to the care timing that worked",
+      "Review supplies before they feel urgent",
+      "Let one completed routine be enough for now",
+    ],
+    reassurance: "Completed routine care helps the day stay less reactive.",
+  },
+  routine_missed: {
+    label: "Routine Reminders focus",
+    title: "Reset the next small care task without trying to catch up all at once.",
+    bullets: [
+      "Choose the next medication or care timing",
+      "Notice one small task that is easy to miss",
+      "Keep the routine simple today",
+    ],
+    reassurance: "A missed task does not ruin the day. Resetting gently is enough.",
+  },
   "A little worse": {
     label: "Comfort + reduced activity focus",
     title: "Keep the day smaller and easier to move through.",
     bullets: [
       "Reduce unnecessary movement and long transitions",
       "Keep bathroom and medication timing steady",
-      "Notice whether rest helps Max return toward baseline",
+      "Notice whether rest helps them return toward baseline",
     ],
     reassurance: "Scaling back is care, not failure.",
   },
@@ -125,7 +213,7 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     bullets: [
       "Keep medication and bathroom timing predictable",
       "Watch for small changes without overcorrecting",
-      "Use the same calm structure Max knows",
+      "Use the same calm structure they know",
     ],
     reassurance: "Stable days count. Keeping the pattern steady is meaningful.",
   },
@@ -141,6 +229,14 @@ export const conditionSignalLabels: Record<ConditionSignal, string> = {
   more_restless: "More restless",
   bathroom_normal: "Bathroom timing normal",
   bathroom_changes: "Bathroom changes",
+  comfort_stable: "Comfort looked stable",
+  more_uncomfortable: "More uncomfortable",
+  skin_checked_clear: "Skin check clear",
+  skin_concern: "Skin concern",
+  mobility_supported: "Mobility support worked",
+  mobility_more_difficult: "Mobility more difficult",
+  routine_completed: "Routine completed",
+  routine_missed: "Routine missed",
 };
 
 export function getConditionSignalLabel(signal: ConditionSignal) {

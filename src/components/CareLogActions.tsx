@@ -9,6 +9,7 @@ import { SectionLabel } from "@/components/SectionLabel";
 type CareLogOption = {
   key: string;
   label: string;
+  note?: string;
 };
 
 type CareLogActionsProps = {
@@ -29,7 +30,16 @@ export function CareLogActions({ dogId, options, title }: CareLogActionsProps) {
       <form action={formAction} className="mt-4 grid grid-cols-1 gap-3">
         <input name="dogId" type="hidden" value={dogId} />
         {options.map((option) => (
-          <SubmitCareLogButton key={option.key} option={option} />
+          <div key={option.key}>
+            {option.note ? (
+              <input
+                name={`${option.key}Note`}
+                type="hidden"
+                value={option.note}
+              />
+            ) : null}
+            <SubmitCareLogButton option={option} />
+          </div>
         ))}
       </form>
       {state.success || state.error ? (
