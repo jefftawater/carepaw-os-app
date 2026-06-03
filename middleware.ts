@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 const publicRoutes = ["/login", "/signup"];
+const dogOnboardingRoute = "/onboarding/dog";
 const protectedRoutes = [
   "/today",
   "/profile",
@@ -16,6 +17,10 @@ function isProtectedRoute(pathname: string) {
   );
 }
 
+function isAuthRequiredRoute(pathname: string) {
+  return pathname === dogOnboardingRoute || isProtectedRoute(pathname);
+}
+
 function copyCookies(source: NextResponse, target: NextResponse) {
   source.cookies.getAll().forEach((cookie) => {
     target.cookies.set(cookie);
@@ -24,10 +29,10 @@ function copyCookies(source: NextResponse, target: NextResponse) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const { response, user } = await updateSession(request);
+  const { hasDog, response, user } = await updateSession(request);
   const isPublicRoute = publicRoutes.includes(pathname);
 
-  if (!user && isProtectedRoute(pathname)) {
+  if (!user && isAuthRequiredRoute(pathname)) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/login";
     redirectUrl.searchParams.set("redirectedFrom", pathname);
@@ -37,9 +42,19 @@ export async function middleware(request: NextRequest) {
     return redirectResponse;
   }
 
+  if (user && !hasDog && isProtectedRoute(pathname)) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = dogOnboardingRoute;
+    redirectUrl.search = "";
+
+    const redirectResponse = NextResponse.redirect(redirectUrl);
+    copyCookies(response, redirectResponse);
+    return redirectResponse;
+  }
+
   if (user && isPublicRoute) {
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/today";
+    redirectUrl.pathname = hasDog ? "/today" : dogOnboardingRoute;
     redirectUrl.search = "";
 
     const redirectResponse = NextResponse.redirect(redirectUrl);

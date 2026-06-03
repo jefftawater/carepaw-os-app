@@ -4,24 +4,24 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { LogoutButton } from "@/components/LogoutButton";
 import { SectionLabel } from "@/components/SectionLabel";
-import { requireUser } from "@/lib/auth/requireUser";
+import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 
 export default async function ProfilePage() {
-  await requireUser();
+  const dog = await requireActiveDog();
 
   return (
-    <AppShell title="Max - Profile">
+    <AppShell title={`${dog.name} - Profile`}>
       <Card>
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold leading-7 text-foreground">
-              Max
+              {dog.name}
             </h2>
             <p className="mt-2 text-sm leading-6 text-secondary">
-              Degenerative Myelopathy
+              {dog.condition || "Condition not added yet"}
             </p>
             <p className="text-sm leading-6 text-secondary">
-              Rear leg weakness
+              {dog.mobility_notes || "Mobility notes not added yet"}
             </p>
           </div>
           <button className="text-sm font-semibold text-foreground">Edit</button>
@@ -39,7 +39,7 @@ export default async function ProfilePage() {
       <Card>
         <SectionLabel>Adjust care</SectionLabel>
         <div className="mt-3">
-          <Button href="/update-condition">Update how Max is doing</Button>
+          <Button href="/update-condition">Update how {dog.name} is doing</Button>
         </div>
         <Link
           className="mt-4 block text-center text-sm font-semibold text-secondary"

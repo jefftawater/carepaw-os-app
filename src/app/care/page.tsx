@@ -2,7 +2,7 @@ import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/Card";
 import { CareCard } from "@/components/CareCard";
 import { SectionLabel } from "@/components/SectionLabel";
-import { requireUser } from "@/lib/auth/requireUser";
+import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 
 const careCategories = [
   {
@@ -35,14 +35,14 @@ const careCategories = [
 ];
 
 export default async function CarePage() {
-  await requireUser();
+  const dog = await requireActiveDog();
 
   return (
-    <AppShell title="Max - Care">
+    <AppShell title={`${dog.name} - Care`}>
       <Card>
         <SectionLabel>Today&apos;s care focus</SectionLabel>
         <p className="mt-3 text-lg font-semibold leading-7 text-foreground">
-          Keep Max comfortable, clean, and in rhythm.
+          Keep {dog.name} comfortable, clean, and in rhythm.
         </p>
       </Card>
 

@@ -35,5 +35,18 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return { response: supabaseResponse, user };
+  let hasDog = false;
+
+  if (user) {
+    const { data } = await supabase
+      .from("dogs")
+      .select("id")
+      .eq("owner_id", user.id)
+      .limit(1)
+      .maybeSingle();
+
+    hasDog = Boolean(data);
+  }
+
+  return { hasDog, response: supabaseResponse, user };
 }
