@@ -3,12 +3,14 @@ import Link from "next/link";
 type ButtonProps = {
   children: React.ReactNode;
   href?: string;
+  onClick?: () => void;
   variant?: "primary" | "secondary";
 };
 
 export function Button({
   children,
   href,
+  onClick,
   variant = "primary",
 }: ButtonProps) {
   const className =
@@ -24,5 +26,9 @@ export function Button({
     );
   }
 
-  return <button className={className}>{children}</button>;
+  return (
+    <button className={className} onClick={onClick} type="button">
+      {children}
+    </button>
+  );
 }

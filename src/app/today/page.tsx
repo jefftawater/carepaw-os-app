@@ -1,26 +1,12 @@
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
-import { SectionLabel } from "@/components/SectionLabel";
+import { TodayFocus } from "@/components/TodayFocus";
 
 export default function TodayPage() {
   return (
     <AppShell title="Max - Today">
-      <Card>
-        <SectionLabel>What matters today</SectionLabel>
-        <p className="mt-3 text-lg font-semibold leading-7 text-foreground">
-          Anchor your day around the next medication + bathroom cycle.
-        </p>
-        <ul className="mt-4 space-y-3 text-sm leading-6 text-secondary">
-          <li>After meds, plan for the next potty window</li>
-          <li>Watch comfort and movement changes</li>
-          <li>If today feels like a lot, just focus on the first one</li>
-        </ul>
-        <p className="mt-5 rounded-xl bg-background p-3 text-sm leading-6 text-secondary">
-          You don&apos;t have to manage everything - staying in rhythm is
-          enough.
-        </p>
-      </Card>
+      <TodayFocus />
 
       <Card>
         <label
