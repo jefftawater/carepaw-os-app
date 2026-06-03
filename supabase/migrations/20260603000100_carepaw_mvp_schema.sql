@@ -59,6 +59,11 @@ create index if not exists condition_updates_owner_created_at_idx
 create index if not exists condition_updates_dog_created_at_idx
   on public.condition_updates(dog_id, created_at desc);
 
+grant usage on schema public to authenticated;
+grant select, insert, update on public.profiles to authenticated;
+grant select, insert, update, delete on public.dogs to authenticated;
+grant select, insert, update, delete on public.condition_updates to authenticated;
+
 drop trigger if exists set_profiles_updated_at on public.profiles;
 create trigger set_profiles_updated_at
 before update on public.profiles
