@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { createDogProfile } from "@/app/onboarding/dog/actions";
 import { Button } from "@/components/Button";
@@ -10,6 +10,13 @@ export function DogOnboardingForm() {
   const [state, formAction] = useActionState(createDogProfile, {
     error: "",
   });
+  const [primaryCondition, setPrimaryCondition] = useState<string>(
+    "other_not_sure",
+  );
+  const additionalConditionOptions = dogConditionOptions.filter(
+    (option) =>
+      option.key !== primaryCondition && option.key !== "other_not_sure",
+  );
 
   return (
     <form action={formAction} className="mt-6 flex flex-col gap-4">
@@ -29,6 +36,7 @@ export function DogOnboardingForm() {
           className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
           defaultValue="other_not_sure"
           name="condition"
+          onChange={(event) => setPrimaryCondition(event.target.value)}
         >
           {dogConditionOptions.map((option) => (
             <option key={option.key} value={option.key}>
@@ -37,6 +45,30 @@ export function DogOnboardingForm() {
           ))}
         </select>
       </label>
+
+      <fieldset className="flex flex-col gap-3">
+        <legend className="text-sm font-medium text-foreground">
+          Additional conditions
+        </legend>
+        <div className="rounded-xl border border-border bg-background p-3">
+          <div className="grid grid-cols-1 gap-3">
+            {additionalConditionOptions.map((option) => (
+              <label
+                className="flex items-start gap-3 text-sm leading-6 text-secondary"
+                key={option.key}
+              >
+                <input
+                  className="mt-1 size-4 accent-primary"
+                  name="additionalConditions"
+                  type="checkbox"
+                  value={option.key}
+                />
+                <span>{option.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      </fieldset>
 
       <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
         Mobility notes

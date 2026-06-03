@@ -1,7 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { normalizeDogConditionKey } from "@/lib/dogConditions";
+import {
+  normalizeAdditionalConditionKeys,
+  normalizeDogConditionKey,
+} from "@/lib/dogConditions";
 import { updateDog } from "@/lib/dogs";
 
 export type EditDogProfileState = {
@@ -17,6 +20,10 @@ export async function saveDogProfile(
   const condition = normalizeDogConditionKey(
     String(formData.get("condition") ?? "").trim(),
   );
+  const additionalConditions = normalizeAdditionalConditionKeys(
+    formData.getAll("additionalConditions"),
+    condition,
+  );
   const mobilityNotes = String(formData.get("mobilityNotes") ?? "").trim();
 
   if (!dogId) {
@@ -29,6 +36,7 @@ export async function saveDogProfile(
 
   try {
     await updateDog({
+      additionalConditions,
       condition,
       id: dogId,
       mobilityNotes,

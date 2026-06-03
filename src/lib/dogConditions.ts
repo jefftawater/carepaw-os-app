@@ -43,12 +43,30 @@ export const dogConditionOptions = [
 
 export type DogConditionKey = (typeof dogConditionOptions)[number]["key"];
 
+const dogConditionKeys = dogConditionOptions.map((option) => option.key);
+
 export function normalizeDogConditionKey(condition?: string | null) {
   const matchingOption = dogConditionOptions.find(
     (option) => option.key === condition,
   );
 
   return matchingOption?.key ?? "other_not_sure";
+}
+
+export function normalizeAdditionalConditionKeys(
+  conditions: FormDataEntryValue[] | readonly string[] = [],
+  primaryCondition?: string | null,
+) {
+  const primaryKey = normalizeDogConditionKey(primaryCondition);
+  const normalizedKeys = conditions
+    .map((condition) => String(condition))
+    .filter(isDogConditionKey)
+    .filter(
+      (condition) =>
+        condition !== primaryKey && condition !== "other_not_sure",
+    );
+
+  return Array.from(new Set(normalizedKeys));
 }
 
 export function getDogConditionLabel(condition?: string | null) {
@@ -76,32 +94,102 @@ export function getDogConditionSelectValue(condition?: string | null) {
 }
 
 function isDogConditionKey(condition?: string | null): condition is DogConditionKey {
-  return dogConditionOptions.some((option) => option.key === condition);
+  return dogConditionKeys.includes(condition as DogConditionKey);
+}
+
+export function getDogConditionLabels(conditions: readonly string[] = []) {
+  return conditions.map((condition) => getDogConditionLabel(condition));
+}
+
+const conditionEmphasis: Record<
+  DogConditionKey,
+  {
+    points: string[];
+  }
+> = {
+  degenerative_myelopathy: {
+    points: ["traction", "fatigue", "rear-end support", "skin checks"],
+  },
+  ivdd_disc_disease: {
+    points: ["pain cues", "controlled movement", "calm handling", "avoiding overexcitement"],
+  },
+  spinal_injury_paralysis: {
+    points: ["safe positioning", "skin checks", "bathroom rhythm", "supported movement"],
+  },
+  fce_spinal_stroke: {
+    points: ["fatigue", "safe transitions", "steady routine", "gradual movement support"],
+  },
+  arthritis_senior_mobility: {
+    points: ["comfort", "warmth", "slow transitions", "short movement"],
+  },
+  post_surgery_recovery: {
+    points: ["vet restrictions", "controlled activity", "avoiding overdoing it", "changes from baseline"],
+  },
+  neurologic_weakness: {
+    points: ["balance", "fatigue", "traction", "supported transitions"],
+  },
+  amputation_limb_difference: {
+    points: ["balance", "pressure areas", "fatigue", "surface traction"],
+  },
+  general_mobility_loss: {
+    points: ["safe movement", "comfort", "fatigue", "routine stability"],
+  },
+  other_not_sure: {
+    points: ["comfort", "mobility", "bathroom rhythm", "skin", "energy"],
+  },
+};
+
+function formatList(items: string[]) {
+  if (items.length <= 1) {
+    return items[0] ?? "";
+  }
+
+  if (items.length === 2) {
+    return `${items[0]} and ${items[1]}`;
+  }
+
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
 }
 
 export function getConditionAttentionNote(
   condition: string | null | undefined,
   dogName: string,
+  additionalConditions: readonly string[] = [],
 ) {
-  if (!isDogConditionKey(condition)) {
+  const primaryCondition = isDogConditionKey(condition) ? condition : null;
+  const conditionKeys = Array.from(
+    new Set([
+      ...(primaryCondition ? [primaryCondition] : []),
+      ...additionalConditions.filter(isDogConditionKey),
+    ]),
+  );
+
+  const specificConditionKeys = conditionKeys.filter(
+    (conditionKey) => conditionKey !== "other_not_sure",
+  );
+  const guidanceConditionKeys =
+    specificConditionKeys.length > 0 ? specificConditionKeys : conditionKeys;
+
+  if (guidanceConditionKeys.length === 0) {
     return null;
   }
 
   const name = dogName.trim() || "your dog";
-  const conditionLabel = getDogConditionLabel(condition);
+  const conditionLabels = guidanceConditionKeys.map(getDogConditionLabel);
+  const emphasisPoints = Array.from(
+    new Set(
+      guidanceConditionKeys.flatMap(
+        (conditionKey) => conditionEmphasis[conditionKey].points,
+      ),
+    ),
+  ).slice(0, 4);
 
-  const notes: Record<DogConditionKey, string> = {
-    degenerative_myelopathy: `Because ${name}'s profile includes ${conditionLabel}, pay extra attention to traction, fatigue, rear-end support, and skin checks today.`,
-    ivdd_disc_disease: `Because ${name}'s profile includes ${conditionLabel}, keep movement controlled and watch closely for pain cues or overexcitement today.`,
-    spinal_injury_paralysis: `Because ${name}'s profile includes ${conditionLabel}, pay extra attention to positioning, skin checks, bathroom rhythm, and supported movement today.`,
-    fce_spinal_stroke: `Because ${name}'s profile includes ${conditionLabel}, watch fatigue and keep transitions slow, supported, and predictable today.`,
-    arthritis_senior_mobility: `Because ${name}'s profile includes ${conditionLabel}, pay extra attention to comfort, warmth, slow transitions, and short movement today.`,
-    post_surgery_recovery: `Because ${name}'s profile includes ${conditionLabel}, keep activity controlled and follow any veterinary restrictions closely today.`,
-    neurologic_weakness: `Because ${name}'s profile includes ${conditionLabel}, watch balance, fatigue, traction, and supported transitions today.`,
-    amputation_limb_difference: `Because ${name}'s profile includes ${conditionLabel}, pay extra attention to balance, fatigue, pressure areas, and traction today.`,
-    general_mobility_loss: `Because ${name}'s profile includes ${conditionLabel}, focus on safe movement, comfort, fatigue, and routine stability today.`,
-    other_not_sure: `Because ${name}'s condition is still being clarified, focus on patterns: comfort, mobility, bathroom rhythm, skin, and energy today.`,
-  };
+  if (
+    guidanceConditionKeys.length === 1 &&
+    guidanceConditionKeys[0] === "other_not_sure"
+  ) {
+    return `Because ${name}'s condition is still being clarified, focus on patterns: ${formatList(emphasisPoints)} today.`;
+  }
 
-  return notes[condition];
+  return `Because ${name}'s profile includes ${formatList(conditionLabels)}, pay extra attention to ${formatList(emphasisPoints)} today.`;
 }

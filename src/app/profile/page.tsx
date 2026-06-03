@@ -7,10 +7,16 @@ import { FeedbackLink } from "@/components/FeedbackLink";
 import { LogoutButton } from "@/components/LogoutButton";
 import { SectionLabel } from "@/components/SectionLabel";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
-import { getDogConditionLabel } from "@/lib/dogConditions";
+import {
+  getDogConditionLabel,
+  getDogConditionLabels,
+} from "@/lib/dogConditions";
 
 export default async function ProfilePage() {
   const dog = await requireActiveDog();
+  const additionalConditionLabels = getDogConditionLabels(
+    dog.additional_conditions ?? [],
+  );
 
   return (
     <AppShell title={`${dog.name} - Profile`}>
@@ -20,9 +26,22 @@ export default async function ProfilePage() {
             <h2 className="text-xl font-semibold leading-7 text-foreground">
               {dog.name}
             </h2>
-            <p className="mt-2 text-sm leading-6 text-secondary">
-              {getDogConditionLabel(dog.condition)}
-            </p>
+            <div className="mt-2 space-y-2 text-sm leading-6 text-secondary">
+              <p>
+                <span className="font-semibold text-foreground">
+                  Primary condition:
+                </span>{" "}
+                {getDogConditionLabel(dog.condition)}
+              </p>
+              <p>
+                <span className="font-semibold text-foreground">
+                  Additional conditions:
+                </span>{" "}
+                {additionalConditionLabels.length > 0
+                  ? additionalConditionLabels.join(", ")
+                  : "None added."}
+              </p>
+            </div>
             <p className="text-sm leading-6 text-secondary">
               {dog.mobility_notes || "Not added yet"}
             </p>

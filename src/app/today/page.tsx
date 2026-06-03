@@ -12,6 +12,7 @@ export default async function TodayPage() {
   return (
     <AppShell title={`${dog.name} - Today`}>
       <TodayFocus
+        additionalConditions={dog.additional_conditions ?? []}
         dogCondition={dog.condition}
         dogName={dog.name}
         latestUpdate={latestUpdate}

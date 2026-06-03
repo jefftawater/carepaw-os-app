@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 
 export type Dog = {
+  additional_conditions: string[];
   condition: string | null;
   created_at: string;
   current_focus: string | null;
@@ -12,12 +13,14 @@ export type Dog = {
 };
 
 type CreateDogInput = {
+  additionalConditions?: string[];
   condition?: string;
   mobilityNotes?: string;
   name: string;
 };
 
 type UpdateDogInput = {
+  additionalConditions?: string[];
   condition?: string;
   currentFocus?: string;
   id: string;
@@ -69,6 +72,7 @@ export async function createDog(input: CreateDogInput) {
   const { data, error } = await supabase
     .from("dogs")
     .insert({
+      additional_conditions: input.additionalConditions ?? [],
       condition: input.condition?.trim() || null,
       mobility_notes: input.mobilityNotes?.trim() || null,
       name: input.name.trim(),
@@ -95,6 +99,9 @@ export async function updateDog(input: UpdateDogInput) {
   }
 
   const updates = {
+    ...(input.additionalConditions !== undefined
+      ? { additional_conditions: input.additionalConditions }
+      : {}),
     ...(input.condition !== undefined
       ? { condition: input.condition.trim() || null }
       : {}),

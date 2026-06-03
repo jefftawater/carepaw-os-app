@@ -9,12 +9,14 @@ import { ConditionUpdate } from "@/lib/conditionUpdates";
 import { getConditionAttentionNote } from "@/lib/dogConditions";
 
 type TodayFocusProps = {
+  additionalConditions: string[];
   dogCondition: string | null;
   dogName: string;
   latestUpdate: ConditionUpdate | null;
 };
 
 export function TodayFocus({
+  additionalConditions,
   dogCondition,
   dogName,
   latestUpdate,
@@ -22,7 +24,11 @@ export function TodayFocus({
   const focus = latestUpdate
     ? getFocusForSignal(latestUpdate.signal)
     : defaultFocus;
-  const attentionNote = getConditionAttentionNote(dogCondition, dogName);
+  const attentionNote = getConditionAttentionNote(
+    dogCondition,
+    dogName,
+    additionalConditions,
+  );
 
   return (
     <Card>

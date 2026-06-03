@@ -1,7 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { normalizeDogConditionKey } from "@/lib/dogConditions";
+import {
+  normalizeAdditionalConditionKeys,
+  normalizeDogConditionKey,
+} from "@/lib/dogConditions";
 import { createDog } from "@/lib/dogs";
 
 export type CreateDogProfileState = {
@@ -16,6 +19,10 @@ export async function createDogProfile(
   const condition = normalizeDogConditionKey(
     String(formData.get("condition") ?? "").trim(),
   );
+  const additionalConditions = normalizeAdditionalConditionKeys(
+    formData.getAll("additionalConditions"),
+    condition,
+  );
   const mobilityNotes = String(formData.get("mobilityNotes") ?? "").trim();
 
   if (!name) {
@@ -24,6 +31,7 @@ export async function createDogProfile(
 
   try {
     await createDog({
+      additionalConditions,
       condition,
       mobilityNotes,
       name,

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { saveDogProfile } from "@/app/profile/edit/actions";
 import { Button } from "@/components/Button";
@@ -19,6 +19,15 @@ export function EditDogProfileForm({ dog }: EditDogProfileFormProps) {
   const [state, formAction] = useActionState(saveDogProfile, {
     error: "",
   });
+  const initialPrimaryCondition = getDogConditionSelectValue(dog.condition);
+  const [primaryCondition, setPrimaryCondition] = useState<string>(
+    initialPrimaryCondition,
+  );
+  const additionalConditions = dog.additional_conditions ?? [];
+  const additionalConditionOptions = dogConditionOptions.filter(
+    (option) =>
+      option.key !== primaryCondition && option.key !== "other_not_sure",
+  );
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
@@ -38,8 +47,9 @@ export function EditDogProfileForm({ dog }: EditDogProfileFormProps) {
         Condition
         <select
           className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
-          defaultValue={getDogConditionSelectValue(dog.condition)}
+          defaultValue={initialPrimaryCondition}
           name="condition"
+          onChange={(event) => setPrimaryCondition(event.target.value)}
         >
           {dogConditionOptions.map((option) => (
             <option key={option.key} value={option.key}>
@@ -48,6 +58,31 @@ export function EditDogProfileForm({ dog }: EditDogProfileFormProps) {
           ))}
         </select>
       </label>
+
+      <fieldset className="flex flex-col gap-3">
+        <legend className="text-sm font-medium text-foreground">
+          Additional conditions
+        </legend>
+        <div className="rounded-xl border border-border bg-background p-3">
+          <div className="grid grid-cols-1 gap-3">
+            {additionalConditionOptions.map((option) => (
+              <label
+                className="flex items-start gap-3 text-sm leading-6 text-secondary"
+                key={option.key}
+              >
+                <input
+                  className="mt-1 size-4 accent-primary"
+                  defaultChecked={additionalConditions.includes(option.key)}
+                  name="additionalConditions"
+                  type="checkbox"
+                  value={option.key}
+                />
+                <span>{option.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      </fieldset>
 
       <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
         Mobility notes
