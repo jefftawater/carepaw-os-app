@@ -28,7 +28,7 @@ export default async function ProfilePage() {
             className="text-sm font-semibold text-foreground"
             href="/profile/edit"
           >
-            Edit
+            Edit profile
           </Link>
         </div>
       </Card>
@@ -43,15 +43,12 @@ export default async function ProfilePage() {
 
       <Card>
         <SectionLabel>Adjust care</SectionLabel>
+        <p className="mt-3 text-sm leading-6 text-secondary">
+          Record today&apos;s condition signal for Today Focus and History.
+        </p>
         <div className="mt-3">
-          <Button href="/update-condition">Update how {dog.name} is doing</Button>
+          <Button href="/update-condition">{"Log today's update"}</Button>
         </div>
-        <Link
-          className="mt-4 block text-center text-sm font-semibold text-secondary"
-          href="/update-condition"
-        >
-          Update condition details
-        </Link>
       </Card>
 
       <Card>
