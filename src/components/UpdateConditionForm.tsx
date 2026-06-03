@@ -15,10 +15,16 @@ import {
 export function UpdateConditionForm() {
   const router = useRouter();
   const [selectedSignal, setSelectedSignal] =
-    useState<ConditionSignal>("About the same");
+    useState<ConditionSignal | null>(null);
   const [note, setNote] = useState("");
+  const [savePrompt, setSavePrompt] = useState("");
 
   function handleSave() {
+    if (!selectedSignal) {
+      setSavePrompt("Choose how Max is doing today first.");
+      return;
+    }
+
     saveCareUpdate(createCareUpdate(selectedSignal, note.trim()));
     notifyCareUpdateChanged();
     router.push("/today");
@@ -35,11 +41,14 @@ export function UpdateConditionForm() {
               aria-pressed={isSelected}
               className={`w-full rounded-xl border p-4 text-left text-base font-medium leading-6 shadow-sm shadow-black/[0.02] transition-colors ${
                 isSelected
-                  ? "border-foreground bg-foreground text-white"
-                  : "border-border bg-card text-foreground"
+                  ? "border-foreground bg-gray-100 text-foreground ring-1 ring-foreground/10"
+                  : "border-border bg-card text-foreground hover:bg-gray-50"
               }`}
               key={option}
-              onClick={() => setSelectedSignal(option)}
+              onClick={() => {
+                setSelectedSignal(option);
+                setSavePrompt("");
+              }}
               type="button"
             >
               {option}
@@ -64,7 +73,13 @@ export function UpdateConditionForm() {
         />
       </Card>
 
-      <Button onClick={handleSave}>Save</Button>
+      {savePrompt ? (
+        <p className="px-1 text-sm leading-6 text-secondary">{savePrompt}</p>
+      ) : null}
+
+      <Button disabled={!selectedSignal} onClick={handleSave}>
+        Save
+      </Button>
     </>
   );
 }

@@ -2,8 +2,11 @@
 
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
-import { useCareUpdates } from "@/hooks/useLatestCareUpdate";
-import { getFocusForSignal } from "@/lib/careUpdates";
+import {
+  notifyCareUpdateChanged,
+  useCareUpdates,
+} from "@/hooks/useLatestCareUpdate";
+import { clearCareUpdates, getFocusForSignal } from "@/lib/careUpdates";
 
 const sampleDays = [
   {
@@ -23,7 +26,7 @@ const sampleDays = [
   },
 ];
 
-function formatSavedDate(createdAt: string) {
+function formatSavedDateTime(createdAt: string) {
   return new Intl.DateTimeFormat("en-US", {
     day: "numeric",
     hour: "numeric",
@@ -35,45 +38,85 @@ function formatSavedDate(createdAt: string) {
 export function HistoryList() {
   const savedUpdates = useCareUpdates();
 
+  function handleClearHistory() {
+    clearCareUpdates();
+    notifyCareUpdateChanged();
+  }
+
   return (
     <>
-      {savedUpdates.map((update, index) => (
-        <Card key={update.id}>
-          <h2 className="text-base font-semibold leading-6 text-foreground">
-            {index === 0 ? "Latest" : "Saved"} /{" "}
-            {formatSavedDate(update.createdAt)}
+      <section className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3 px-1">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
+            Today
           </h2>
-          <ul className="mt-3 space-y-2 text-sm leading-6 text-secondary">
-            <li>{update.signal}</li>
-            {update.note ? <li>{update.note}</li> : null}
-          </ul>
-          <div className="mt-4 rounded-xl bg-background p-3">
-            <SectionLabel>Insight</SectionLabel>
-            <p className="mt-2 text-sm leading-6 text-secondary">
-              {getFocusForSignal(update.signal).label}
-            </p>
-          </div>
-        </Card>
-      ))}
+          {savedUpdates.length > 0 ? (
+            <button
+              className="text-sm font-medium text-muted underline-offset-4 hover:text-secondary hover:underline"
+              onClick={handleClearHistory}
+              type="button"
+            >
+              Clear demo history
+            </button>
+          ) : null}
+        </div>
 
-      {sampleDays.map((day) => (
-        <Card key={day.date}>
-          <h2 className="text-base font-semibold leading-6 text-foreground">
-            {day.date}
-          </h2>
-          <ul className="mt-3 space-y-2 text-sm leading-6 text-secondary">
-            {day.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <div className="mt-4 rounded-xl bg-background p-3">
-            <SectionLabel>Insight</SectionLabel>
-            <p className="mt-2 text-sm leading-6 text-secondary">
-              {day.insight}
+        {savedUpdates.length > 0 ? (
+          savedUpdates.map((update) => (
+            <Card key={update.id}>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+                {formatSavedDateTime(update.createdAt)}
+              </p>
+              <h3 className="mt-2 text-base font-semibold leading-6 text-foreground">
+                {update.signal}
+              </h3>
+              {update.note ? (
+                <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-secondary">
+                  {update.note}
+                </p>
+              ) : null}
+              <div className="mt-4 rounded-xl bg-background p-3">
+                <SectionLabel>Insight</SectionLabel>
+                <p className="mt-2 text-sm leading-6 text-secondary">
+                  {getFocusForSignal(update.signal).label}
+                </p>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <Card>
+            <p className="text-sm leading-6 text-secondary">
+              No updates logged today yet.
             </p>
-          </div>
-        </Card>
-      ))}
+          </Card>
+        )}
+      </section>
+
+      <section className="mt-2 flex flex-col gap-3">
+        <h2 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted">
+          Earlier examples
+        </h2>
+        {sampleDays.map((day) => (
+          <Card key={day.date}>
+            <h3 className="text-base font-semibold leading-6 text-foreground">
+              {day.date}
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm leading-6 text-secondary">
+              {day.items.map((item) => (
+                <li className="break-words" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 rounded-xl bg-background p-3">
+              <SectionLabel>Insight</SectionLabel>
+              <p className="mt-2 text-sm leading-6 text-secondary">
+                {day.insight}
+              </p>
+            </div>
+          </Card>
+        ))}
+      </section>
     </>
   );
 }

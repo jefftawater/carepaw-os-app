@@ -2,6 +2,7 @@ import Link from "next/link";
 
 type ButtonProps = {
   children: React.ReactNode;
+  disabled?: boolean;
   href?: string;
   onClick?: () => void;
   variant?: "primary" | "secondary";
@@ -9,25 +10,36 @@ type ButtonProps = {
 
 export function Button({
   children,
+  disabled = false,
   href,
   onClick,
   variant = "primary",
 }: ButtonProps) {
-  const className =
+  const baseClassName =
+    "flex h-12 w-full items-center justify-center rounded-xl px-4 text-sm font-semibold transition-colors";
+  const variantClassName =
     variant === "primary"
-      ? "flex h-12 w-full items-center justify-center rounded-xl bg-foreground px-4 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
-      : "flex h-12 w-full items-center justify-center rounded-xl border border-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-gray-50";
+      ? "bg-foreground text-white hover:bg-gray-800"
+      : "border border-border bg-card text-foreground hover:bg-gray-50";
+  const disabledClassName = disabled
+    ? "cursor-not-allowed opacity-50 hover:bg-foreground"
+    : "";
+  const className = `${baseClassName} ${variantClassName} ${disabledClassName}`;
 
   if (href) {
     return (
-      <Link className={className} href={href}>
+      <Link
+        aria-disabled={disabled}
+        className={className}
+        href={disabled ? "#" : href}
+      >
         {children}
       </Link>
     );
   }
 
   return (
-    <button className={className} onClick={onClick} type="button">
+    <button className={className} disabled={disabled} onClick={onClick} type="button">
       {children}
     </button>
   );

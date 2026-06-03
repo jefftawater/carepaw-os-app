@@ -226,3 +226,10 @@ export function saveCareUpdate(update: CareUpdate) {
   window.localStorage.setItem(careUpdateStorageKey, JSON.stringify(updates));
   cachedRawUpdate = null;
 }
+
+export function clearCareUpdates() {
+  window.localStorage.removeItem(careUpdateStorageKey);
+  window.localStorage.removeItem(legacyCareUpdateStorageKey);
+  cachedRawUpdate = null;
+  cachedUpdates = [];
+}
