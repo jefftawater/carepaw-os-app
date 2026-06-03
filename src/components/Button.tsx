@@ -22,9 +22,11 @@ export function Button({
   const variantClassName =
     variant === "primary"
       ? "bg-primary text-card hover:bg-primary-hover"
-      : "border border-secondary-action-border bg-card text-foreground hover:bg-soft";
+      : "border border-secondary-action-border bg-card text-foreground hover:bg-utility-hover";
   const disabledClassName = disabled
-    ? "cursor-not-allowed opacity-50 hover:bg-primary"
+    ? variant === "primary"
+      ? "cursor-not-allowed opacity-50 hover:bg-primary"
+      : "cursor-not-allowed opacity-50 hover:bg-card"
     : "";
   const className = `${baseClassName} ${variantClassName} ${disabledClassName}`;
 

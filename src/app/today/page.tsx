@@ -28,7 +28,7 @@ export default async function TodayPage() {
       </Card>
 
       <div className="grid grid-cols-1 gap-3">
-        <Button variant="secondary">Yes, this helped</Button>
+        <Button>Yes, this helped</Button>
         <Button variant="secondary">Not really</Button>
       </div>
     </AppShell>

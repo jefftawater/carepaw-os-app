@@ -35,7 +35,7 @@ export function LogoutButton() {
   return (
     <>
       <button
-        className="mt-4 h-11 w-full rounded-xl border border-secondary-action-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-soft disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-4 h-11 w-full rounded-xl border border-secondary-action-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-utility-hover disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-card"
         disabled={isLoggingOut}
         onClick={handleLogout}
         type="button"

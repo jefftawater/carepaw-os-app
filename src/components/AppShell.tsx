@@ -1,4 +1,5 @@
 import { BottomNav } from "./BottomNav";
+import { BrandMark } from "./BrandMark";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -10,7 +11,8 @@ export function AppShell({ children, title }: AppShellProps) {
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background">
         <header className="sticky top-0 z-10 border-b border-border bg-background/95 px-4 pb-3 pt-5 backdrop-blur">
-          <h1 className="text-[22px] font-semibold leading-8 text-foreground">
+          <BrandMark />
+          <h1 className="mt-1 text-[22px] font-semibold leading-8 text-foreground">
             {title}
           </h1>
         </header>

@@ -24,7 +24,7 @@ export function BottomNav() {
           return (
             <Link
               aria-current={isActive ? "page" : undefined}
-              className={`flex items-center justify-center text-sm font-medium transition-colors ${
+              className={`flex items-center justify-center text-sm font-medium transition-colors hover:text-primary ${
                 isActive ? "text-nav-active" : "text-nav-inactive"
               }`}
               href={item.href}

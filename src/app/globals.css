@@ -12,6 +12,7 @@
   --primary: #3ba49a;
   --primary-hover: #328c84;
   --secondary-action-border: #e6e0d8;
+  --utility-hover: #f7f4ef;
   --success-background: #eef7ec;
   --success-text: #2f6f5e;
   --success-border: #a9d7a0;
@@ -34,6 +35,7 @@
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-secondary-action-border: var(--secondary-action-border);
+  --color-utility-hover: var(--utility-hover);
   --color-success-background: var(--success-background);
   --color-success-text: var(--success-text);
   --color-success-border: var(--success-border);

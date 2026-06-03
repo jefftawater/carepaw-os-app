@@ -52,7 +52,7 @@ function SubmitCareLogButton({ option }: { option: CareLogOption }) {
 
   return (
     <button
-      className="flex h-12 w-full items-center justify-center rounded-xl border border-secondary-action-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-soft disabled:cursor-not-allowed disabled:opacity-50"
+      className="flex h-12 w-full items-center justify-center rounded-xl bg-primary px-4 text-sm font-semibold text-card transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
       disabled={pending}
       name="actionKey"
       type="submit"

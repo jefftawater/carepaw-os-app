@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { BrandMark } from "@/components/BrandMark";
 import { Card } from "@/components/Card";
 import { createClient } from "@/lib/supabase/client";
 
@@ -57,6 +58,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   return (
     <Card>
       <div className="mb-5">
+        <BrandMark className="mb-2" />
         <h1 className="text-2xl font-semibold leading-8 text-foreground">
           {isLogin ? "Log in" : "Create account"}
         </h1>
