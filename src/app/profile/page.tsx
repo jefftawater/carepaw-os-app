@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
+import { CareDisclaimer } from "@/components/CareDisclaimer";
 import { Card } from "@/components/Card";
+import { FeedbackLink } from "@/components/FeedbackLink";
 import { LogoutButton } from "@/components/LogoutButton";
 import { SectionLabel } from "@/components/SectionLabel";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
@@ -53,8 +55,13 @@ export default async function ProfilePage() {
 
       <Card>
         <SectionLabel>Account</SectionLabel>
+        <div className="mt-3">
+          <FeedbackLink />
+        </div>
         <LogoutButton />
       </Card>
+
+      <CareDisclaimer />
     </AppShell>
   );
 }

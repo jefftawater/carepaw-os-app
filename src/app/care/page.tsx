@@ -1,6 +1,8 @@
 import { AppShell } from "@/components/AppShell";
+import { CareDisclaimer } from "@/components/CareDisclaimer";
 import { Card } from "@/components/Card";
 import { CareCard } from "@/components/CareCard";
+import { FeedbackLink } from "@/components/FeedbackLink";
 import { SectionLabel } from "@/components/SectionLabel";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 
@@ -56,6 +58,15 @@ export default async function CarePage() {
           />
         ))}
       </div>
+
+      <CareDisclaimer />
+
+      <Card>
+        <SectionLabel>Beta support</SectionLabel>
+        <div className="mt-3">
+          <FeedbackLink />
+        </div>
+      </Card>
     </AppShell>
   );
 }

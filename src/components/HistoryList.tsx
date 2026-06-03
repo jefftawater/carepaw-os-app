@@ -35,6 +35,8 @@ function formatSavedDateTime(createdAt: string) {
 }
 
 export function HistoryList({ updates }: HistoryListProps) {
+  const hasRealUpdates = updates.length > 0;
+
   return (
     <>
       <section className="flex flex-col gap-3">
@@ -42,7 +44,7 @@ export function HistoryList({ updates }: HistoryListProps) {
           Today
         </h2>
 
-        {updates.length > 0 ? (
+        {hasRealUpdates ? (
           updates.map((update) => (
             <Card key={update.id}>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
@@ -74,31 +76,33 @@ export function HistoryList({ updates }: HistoryListProps) {
         )}
       </section>
 
-      <section className="mt-2 flex flex-col gap-3">
-        <h2 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted">
-          Sample recent days
-        </h2>
-        {sampleDays.map((day) => (
-          <Card key={day.date}>
-            <h3 className="text-base font-semibold leading-6 text-foreground">
-              {day.date}
-            </h3>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-secondary">
-              {day.items.map((item) => (
-                <li className="break-words" key={item}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 rounded-xl bg-background p-3">
-              <SectionLabel>Insight</SectionLabel>
-              <p className="mt-2 text-sm leading-6 text-secondary">
-                {day.insight}
-              </p>
-            </div>
-          </Card>
-        ))}
-      </section>
+      {!hasRealUpdates ? (
+        <section className="mt-2 flex flex-col gap-3">
+          <h2 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted">
+            Example history entries
+          </h2>
+          {sampleDays.map((day) => (
+            <Card key={day.date}>
+              <h3 className="text-base font-semibold leading-6 text-foreground">
+                {day.date}
+              </h3>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-secondary">
+                {day.items.map((item) => (
+                  <li className="break-words" key={item}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 rounded-xl bg-background p-3">
+                <SectionLabel>Example insight</SectionLabel>
+                <p className="mt-2 text-sm leading-6 text-secondary">
+                  {day.insight}
+                </p>
+              </div>
+            </Card>
+          ))}
+        </section>
+      ) : null}
     </>
   );
 }

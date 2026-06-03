@@ -61,9 +61,8 @@ export function AuthForm({ mode }: AuthFormProps) {
           {isLogin ? "Log in" : "Create account"}
         </h1>
         <p className="mt-2 text-sm leading-6 text-secondary">
-          {isLogin
-            ? "Return to Max's daily care rhythm."
-            : "Start a calm care space for Max."}
+          CarePaw OS helps you track what matters today for a dog with changing
+          mobility needs.
         </p>
       </div>
 
