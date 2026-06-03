@@ -5,6 +5,10 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { saveDogProfile } from "@/app/profile/edit/actions";
 import { Button } from "@/components/Button";
+import {
+  dogConditionOptions,
+  getDogConditionSelectValue,
+} from "@/lib/dogConditions";
 import { Dog } from "@/lib/dogs";
 
 type EditDogProfileFormProps = {
@@ -32,11 +36,17 @@ export function EditDogProfileForm({ dog }: EditDogProfileFormProps) {
 
       <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
         Condition
-        <input
+        <select
           className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
-          defaultValue={dog.condition ?? ""}
+          defaultValue={getDogConditionSelectValue(dog.condition)}
           name="condition"
-        />
+        >
+          {dogConditionOptions.map((option) => (
+            <option key={option.key} value={option.key}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label className="flex flex-col gap-2 text-sm font-medium text-foreground">

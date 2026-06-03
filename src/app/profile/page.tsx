@@ -7,6 +7,7 @@ import { FeedbackLink } from "@/components/FeedbackLink";
 import { LogoutButton } from "@/components/LogoutButton";
 import { SectionLabel } from "@/components/SectionLabel";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
+import { getDogConditionLabel } from "@/lib/dogConditions";
 
 export default async function ProfilePage() {
   const dog = await requireActiveDog();
@@ -20,7 +21,7 @@ export default async function ProfilePage() {
               {dog.name}
             </h2>
             <p className="mt-2 text-sm leading-6 text-secondary">
-              {dog.condition || "Not added yet"}
+              {getDogConditionLabel(dog.condition)}
             </p>
             <p className="text-sm leading-6 text-secondary">
               {dog.mobility_notes || "Not added yet"}

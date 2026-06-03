@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { createDogProfile } from "@/app/onboarding/dog/actions";
 import { Button } from "@/components/Button";
+import { dogConditionOptions } from "@/lib/dogConditions";
 
 export function DogOnboardingForm() {
   const [state, formAction] = useActionState(createDogProfile, {
@@ -24,11 +25,17 @@ export function DogOnboardingForm() {
 
       <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
         Condition
-        <input
+        <select
           className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
+          defaultValue="other_not_sure"
           name="condition"
-          placeholder="Degenerative Myelopathy"
-        />
+        >
+          {dogConditionOptions.map((option) => (
+            <option key={option.key} value={option.key}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label className="flex flex-col gap-2 text-sm font-medium text-foreground">

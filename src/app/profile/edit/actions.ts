@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { normalizeDogConditionKey } from "@/lib/dogConditions";
 import { updateDog } from "@/lib/dogs";
 
 export type EditDogProfileState = {
@@ -13,7 +14,9 @@ export async function saveDogProfile(
 ): Promise<EditDogProfileState> {
   const dogId = String(formData.get("dogId") ?? "").trim();
   const name = String(formData.get("name") ?? "").trim();
-  const condition = String(formData.get("condition") ?? "").trim();
+  const condition = normalizeDogConditionKey(
+    String(formData.get("condition") ?? "").trim(),
+  );
   const mobilityNotes = String(formData.get("mobilityNotes") ?? "").trim();
 
   if (!dogId) {
