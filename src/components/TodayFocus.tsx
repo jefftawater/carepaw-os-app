@@ -25,7 +25,11 @@ export function TodayFocus({ latestUpdate }: TodayFocusProps) {
         <p className="mt-3 text-sm leading-6 text-muted">
           Latest update: {latestUpdate.signal}
         </p>
-      ) : null}
+      ) : (
+        <p className="mt-3 text-sm leading-6 text-muted">
+          No condition update logged yet. Starting with a steady routine focus.
+        </p>
+      )}
       <ul className="mt-4 space-y-3 text-sm leading-6 text-secondary">
         {focus.bullets.map((bullet) => (
           <li key={bullet}>{bullet}</li>

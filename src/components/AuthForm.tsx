@@ -22,17 +22,32 @@ export function AuthForm({ mode }: AuthFormProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage("");
+
+    if (!isLogin && password.length < 6) {
+      setErrorMessage("Use a password with at least 6 characters.");
+      return;
+    }
+
     setIsSubmitting(true);
 
-    const authResponse = isLogin
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+    try {
+      const authResponse = isLogin
+        ? await supabase.auth.signInWithPassword({ email, password })
+        : await supabase.auth.signUp({ email, password });
 
-    setIsSubmitting(false);
-
-    if (authResponse.error) {
-      setErrorMessage(authResponse.error.message);
+      if (authResponse.error) {
+        setErrorMessage(
+          isLogin
+            ? "We couldn't log you in with those details."
+            : "We couldn't create that account. Try a different email or password.",
+        );
+        return;
+      }
+    } catch {
+      setErrorMessage("Something went wrong. Please try again.");
       return;
+    } finally {
+      setIsSubmitting(false);
     }
 
     router.push("/today");

@@ -67,7 +67,8 @@ export function HistoryList({ updates }: HistoryListProps) {
         ) : (
           <Card>
             <p className="text-sm leading-6 text-secondary">
-              No updates logged today yet.
+              No real updates logged yet. Once you save a condition update, it
+              will appear here.
             </p>
           </Card>
         )}
@@ -75,7 +76,7 @@ export function HistoryList({ updates }: HistoryListProps) {
 
       <section className="mt-2 flex flex-col gap-3">
         <h2 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted">
-          Earlier examples
+          Sample recent days
         </h2>
         {sampleDays.map((day) => (
           <Card key={day.date}>

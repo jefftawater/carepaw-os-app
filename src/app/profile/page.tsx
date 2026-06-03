@@ -18,10 +18,10 @@ export default async function ProfilePage() {
               {dog.name}
             </h2>
             <p className="mt-2 text-sm leading-6 text-secondary">
-              {dog.condition || "Condition not added yet"}
+              {dog.condition || "Not added yet"}
             </p>
             <p className="text-sm leading-6 text-secondary">
-              {dog.mobility_notes || "Mobility notes not added yet"}
+              {dog.mobility_notes || "Not added yet"}
             </p>
           </div>
           <Link

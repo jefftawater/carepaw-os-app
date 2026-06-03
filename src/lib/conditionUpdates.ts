@@ -55,13 +55,6 @@ export async function createConditionUpdate(
     signal,
   };
 
-  console.info("CarePaw condition update insert", {
-    dogId: insertPayload.dog_id,
-    hasNote: insertPayload.note.length > 0,
-    ownerId: insertPayload.owner_id,
-    signal: insertPayload.signal,
-  });
-
   const { data, error } = await supabase
     .from("condition_updates")
     .insert(insertPayload)
@@ -77,13 +70,6 @@ export async function createConditionUpdate(
     });
     throw error;
   }
-
-  console.info("CarePaw condition update insert succeeded", {
-    dogId: data.dog_id,
-    id: data.id,
-    ownerId: data.owner_id,
-    signal: data.signal,
-  });
 
   return data as ConditionUpdate;
 }

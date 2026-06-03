@@ -3,20 +3,32 @@
 import { redirect } from "next/navigation";
 import { createDog } from "@/lib/dogs";
 
-export async function createDogProfile(formData: FormData) {
+export type CreateDogProfileState = {
+  error: string;
+};
+
+export async function createDogProfile(
+  _previousState: CreateDogProfileState,
+  formData: FormData,
+): Promise<CreateDogProfileState> {
   const name = String(formData.get("name") ?? "").trim();
   const condition = String(formData.get("condition") ?? "").trim();
   const mobilityNotes = String(formData.get("mobilityNotes") ?? "").trim();
 
   if (!name) {
-    throw new Error("Dog name is required.");
+    return { error: "Dog name is required." };
   }
 
-  await createDog({
-    condition,
-    mobilityNotes,
-    name,
-  });
+  try {
+    await createDog({
+      condition,
+      mobilityNotes,
+      name,
+    });
+  } catch (error) {
+    console.error("CarePaw dog profile creation failed", { error });
+    return { error: "Something went wrong creating this profile. Try again." };
+  }
 
   redirect("/today");
 }
