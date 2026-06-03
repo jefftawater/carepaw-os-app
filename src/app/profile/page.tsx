@@ -24,7 +24,12 @@ export default async function ProfilePage() {
               {dog.mobility_notes || "Mobility notes not added yet"}
             </p>
           </div>
-          <button className="text-sm font-semibold text-foreground">Edit</button>
+          <Link
+            className="text-sm font-semibold text-foreground"
+            href="/profile/edit"
+          >
+            Edit
+          </Link>
         </div>
       </Card>
 
