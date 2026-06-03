@@ -8,7 +8,7 @@ type AppShellProps = {
 export function AppShell({ children, title }: AppShellProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background">
+      <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background">
         <header className="sticky top-0 z-10 border-b border-border bg-background/95 px-4 pb-3 pt-5 backdrop-blur">
           <h1 className="text-[22px] font-semibold leading-8 text-foreground">
             {title}
