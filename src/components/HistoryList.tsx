@@ -58,7 +58,7 @@ export function HistoryList({ updates }: HistoryListProps) {
                   {update.note}
                 </p>
               ) : null}
-              <div className="mt-4 rounded-xl bg-background p-3">
+              <div className="mt-4 rounded-xl border border-soft-border bg-soft p-3">
                 <SectionLabel>Insight</SectionLabel>
                 <p className="mt-2 text-sm leading-6 text-secondary">
                   {getFocusForSignal(update.signal).label}
@@ -93,7 +93,7 @@ export function HistoryList({ updates }: HistoryListProps) {
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 rounded-xl bg-background p-3">
+              <div className="mt-4 rounded-xl border border-soft-border bg-soft p-3">
                 <SectionLabel>Example insight</SectionLabel>
                 <p className="mt-2 text-sm leading-6 text-secondary">
                   {day.insight}

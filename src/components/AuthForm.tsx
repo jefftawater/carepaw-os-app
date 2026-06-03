@@ -71,7 +71,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           Email
           <input
             autoComplete="email"
-            className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-foreground"
+            className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
             onChange={(event) => setEmail(event.target.value)}
             required
             type="email"
@@ -83,7 +83,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           Password
           <input
             autoComplete={isLogin ? "current-password" : "new-password"}
-            className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-foreground"
+            className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
             minLength={6}
             onChange={(event) => setPassword(event.target.value)}
             required
@@ -93,13 +93,13 @@ export function AuthForm({ mode }: AuthFormProps) {
         </label>
 
         {errorMessage ? (
-          <p className="rounded-xl bg-background p-3 text-sm leading-6 text-secondary">
+          <p className="rounded-xl border border-warning-border bg-warning-background p-3 text-sm leading-6 text-warning-text">
             {errorMessage}
           </p>
         ) : null}
 
         <button
-          className="flex h-12 w-full items-center justify-center rounded-xl bg-foreground px-4 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-12 w-full items-center justify-center rounded-xl bg-primary px-4 text-sm font-semibold text-card transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
           disabled={isSubmitting}
           type="submit"
         >
@@ -114,7 +114,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       <p className="mt-5 text-center text-sm leading-6 text-secondary">
         {isLogin ? "New to CarePaw OS?" : "Already have an account?"}{" "}
         <Link
-          className="font-semibold text-foreground"
+          className="font-semibold text-primary"
           href={isLogin ? "/signup" : "/login"}
         >
           {isLogin ? "Create an account" : "Log in"}

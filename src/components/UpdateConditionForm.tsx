@@ -47,8 +47,8 @@ export function UpdateConditionForm({
               aria-pressed={isSelected}
               className={`w-full rounded-xl border p-4 text-left text-base font-medium leading-6 shadow-sm shadow-black/[0.02] transition-colors ${
                 isSelected
-                  ? "border-foreground bg-gray-100 text-foreground ring-1 ring-foreground/10"
-                  : "border-border bg-card text-foreground hover:bg-gray-50"
+                  ? "border-primary bg-soft text-foreground ring-1 ring-primary/10"
+                  : "border-border bg-card text-foreground hover:bg-soft"
               }`}
               key={option}
               onClick={() => {
@@ -71,7 +71,7 @@ export function UpdateConditionForm({
           Anything else you noticed?
         </label>
         <textarea
-          className="mt-3 min-h-28 w-full resize-none rounded-xl border border-border bg-background p-3 text-sm leading-6 text-foreground outline-none placeholder:text-muted focus:border-foreground"
+          className="mt-3 min-h-28 w-full resize-none rounded-xl border border-border bg-background p-3 text-sm leading-6 text-foreground outline-none placeholder:text-muted focus:border-primary"
           id="condition-note"
           name="note"
           onChange={(event) => setNote(event.target.value)}
@@ -81,7 +81,7 @@ export function UpdateConditionForm({
       </Card>
 
       {savePrompt || state.error ? (
-        <p className="px-1 text-sm leading-6 text-secondary">
+        <p className="rounded-xl border border-warning-border bg-warning-background p-3 text-sm leading-6 text-warning-text">
           {savePrompt || state.error}
         </p>
       ) : null}

@@ -1,23 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f9fafb;
+  --background: #f8f6f2;
   --card: #ffffff;
-  --foreground: #111827;
-  --secondary: #6b7280;
-  --muted: #9ca3af;
-  --border: #e5e7eb;
-  --nav-active: #111827;
-  --nav-inactive: #9ca3af;
+  --soft: #eef7ec;
+  --soft-border: #a9d7a0;
+  --foreground: #28425d;
+  --secondary: #5f6b7a;
+  --muted: #8b949e;
+  --border: #e6e0d8;
+  --primary: #3ba49a;
+  --primary-hover: #328c84;
+  --secondary-action-border: #e6e0d8;
+  --success-background: #eef7ec;
+  --success-text: #2f6f5e;
+  --success-border: #a9d7a0;
+  --warning-background: #f8f3ea;
+  --warning-text: #7a4d16;
+  --warning-border: #e6e0d8;
+  --nav-active: #3ba49a;
+  --nav-inactive: #8b949e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-card: var(--card);
+  --color-soft: var(--soft);
+  --color-soft-border: var(--soft-border);
   --color-foreground: var(--foreground);
   --color-secondary: var(--secondary);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary-action-border: var(--secondary-action-border);
+  --color-success-background: var(--success-background);
+  --color-success-text: var(--success-text);
+  --color-success-border: var(--success-border);
+  --color-warning-background: var(--warning-background);
+  --color-warning-text: var(--warning-text);
+  --color-warning-border: var(--warning-border);
   --color-nav-active: var(--nav-active);
   --color-nav-inactive: var(--nav-inactive);
   --font-sans: Arial, Helvetica, sans-serif;

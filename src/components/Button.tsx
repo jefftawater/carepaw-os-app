@@ -21,10 +21,10 @@ export function Button({
     "flex h-12 w-full items-center justify-center rounded-xl px-4 text-sm font-semibold transition-colors";
   const variantClassName =
     variant === "primary"
-      ? "bg-foreground text-white hover:bg-gray-800"
-      : "border border-border bg-card text-foreground hover:bg-gray-50";
+      ? "bg-primary text-card hover:bg-primary-hover"
+      : "border border-secondary-action-border bg-card text-foreground hover:bg-soft";
   const disabledClassName = disabled
-    ? "cursor-not-allowed opacity-50 hover:bg-foreground"
+    ? "cursor-not-allowed opacity-50 hover:bg-primary"
     : "";
   const className = `${baseClassName} ${variantClassName} ${disabledClassName}`;
 

@@ -35,7 +35,7 @@ export function LogoutButton() {
   return (
     <>
       <button
-        className="mt-4 h-11 w-full rounded-xl border border-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-4 h-11 w-full rounded-xl border border-secondary-action-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-soft disabled:cursor-not-allowed disabled:opacity-50"
         disabled={isLoggingOut}
         onClick={handleLogout}
         type="button"
@@ -43,7 +43,9 @@ export function LogoutButton() {
         {isLoggingOut ? "Logging out..." : "Log out"}
       </button>
       {errorMessage ? (
-        <p className="mt-3 text-sm leading-6 text-secondary">{errorMessage}</p>
+        <p className="mt-3 rounded-xl border border-warning-border bg-warning-background p-3 text-sm leading-6 text-warning-text">
+          {errorMessage}
+        </p>
       ) : null}
     </>
   );

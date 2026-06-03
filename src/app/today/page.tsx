@@ -21,7 +21,7 @@ export default async function TodayPage() {
           What felt different today?
         </label>
         <textarea
-          className="mt-3 min-h-28 w-full resize-none rounded-xl border border-border bg-background p-3 text-sm leading-6 text-foreground outline-none placeholder:text-muted focus:border-foreground"
+          className="mt-3 min-h-28 w-full resize-none rounded-xl border border-border bg-background p-3 text-sm leading-6 text-foreground outline-none placeholder:text-muted focus:border-primary"
           id="today-note"
           placeholder="Add a quick note..."
         />

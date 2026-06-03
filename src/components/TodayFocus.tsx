@@ -36,7 +36,7 @@ export function TodayFocus({ latestUpdate }: TodayFocusProps) {
           <li key={bullet}>{bullet}</li>
         ))}
       </ul>
-      <p className="mt-5 rounded-xl bg-background p-3 text-sm leading-6 text-secondary">
+      <p className="mt-5 rounded-xl border border-soft-border bg-soft p-3 text-sm leading-6 text-secondary">
         {focus.reassurance}
       </p>
     </Card>

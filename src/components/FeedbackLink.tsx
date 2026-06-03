@@ -4,7 +4,7 @@ const feedbackHref =
 export function FeedbackLink() {
   return (
     <a
-      className="block text-sm font-semibold text-foreground"
+      className="block text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
       href={feedbackHref}
     >
       Send beta feedback

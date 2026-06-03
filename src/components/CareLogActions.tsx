@@ -33,7 +33,13 @@ export function CareLogActions({ dogId, options, title }: CareLogActionsProps) {
         ))}
       </form>
       {state.success || state.error ? (
-        <p className="mt-4 rounded-xl bg-background p-3 text-sm leading-6 text-secondary">
+        <p
+          className={`mt-4 rounded-xl border p-3 text-sm leading-6 ${
+            state.success
+              ? "border-success-border bg-success-background text-success-text"
+              : "border-warning-border bg-warning-background text-warning-text"
+          }`}
+        >
           {state.success || state.error}
         </p>
       ) : null}
@@ -46,7 +52,7 @@ function SubmitCareLogButton({ option }: { option: CareLogOption }) {
 
   return (
     <button
-      className="flex h-12 w-full items-center justify-center rounded-xl border border-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+      className="flex h-12 w-full items-center justify-center rounded-xl border border-secondary-action-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-soft disabled:cursor-not-allowed disabled:opacity-50"
       disabled={pending}
       name="actionKey"
       type="submit"

@@ -27,7 +27,7 @@ export default async function ProfilePage() {
             </p>
           </div>
           <Link
-            className="text-sm font-semibold text-foreground"
+            className="text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
             href="/profile/edit"
           >
             Edit profile
