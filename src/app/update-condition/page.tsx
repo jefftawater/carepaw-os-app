@@ -1,8 +1,11 @@
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/Card";
 import { UpdateConditionForm } from "@/components/UpdateConditionForm";
+import { requireUser } from "@/lib/auth/requireUser";
 
-export default function UpdateConditionPage() {
+export default async function UpdateConditionPage() {
+  await requireUser();
+
   return (
     <AppShell title="Update Max">
       <Card>

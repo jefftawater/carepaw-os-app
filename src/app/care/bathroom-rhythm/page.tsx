@@ -1,8 +1,11 @@
 import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
+import { requireUser } from "@/lib/auth/requireUser";
 
-export default function BathroomRhythmPage() {
+export default async function BathroomRhythmPage() {
+  await requireUser();
+
   return (
     <AppShell title="Bathroom Rhythm">
       <Card>

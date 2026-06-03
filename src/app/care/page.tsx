@@ -2,6 +2,7 @@ import { AppShell } from "@/components/AppShell";
 import { Card } from "@/components/Card";
 import { CareCard } from "@/components/CareCard";
 import { SectionLabel } from "@/components/SectionLabel";
+import { requireUser } from "@/lib/auth/requireUser";
 
 const careCategories = [
   {
@@ -33,7 +34,9 @@ const careCategories = [
   },
 ];
 
-export default function CarePage() {
+export default async function CarePage() {
+  await requireUser();
+
   return (
     <AppShell title="Max - Care">
       <Card>

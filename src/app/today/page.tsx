@@ -2,8 +2,11 @@ import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { TodayFocus } from "@/components/TodayFocus";
+import { requireUser } from "@/lib/auth/requireUser";
 
-export default function TodayPage() {
+export default async function TodayPage() {
+  await requireUser();
+
   return (
     <AppShell title="Max - Today">
       <TodayFocus />

@@ -2,8 +2,11 @@ import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
+import { requireUser } from "@/lib/auth/requireUser";
 
-export default function MentalStimulationPage() {
+export default async function MentalStimulationPage() {
+  await requireUser();
+
   return (
     <AppShell title="Mental Stimulation">
       <Card>

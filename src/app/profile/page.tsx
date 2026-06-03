@@ -2,9 +2,13 @@ import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { LogoutButton } from "@/components/LogoutButton";
 import { SectionLabel } from "@/components/SectionLabel";
+import { requireUser } from "@/lib/auth/requireUser";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  await requireUser();
+
   return (
     <AppShell title="Max - Profile">
       <Card>
@@ -43,6 +47,11 @@ export default function ProfilePage() {
         >
           Update condition details
         </Link>
+      </Card>
+
+      <Card>
+        <SectionLabel>Account</SectionLabel>
+        <LogoutButton />
       </Card>
     </AppShell>
   );
