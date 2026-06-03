@@ -5,7 +5,7 @@ import { useFormStatus } from "react-dom";
 import { saveConditionUpdate } from "@/app/update-condition/actions";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
-import { ConditionSignal, conditionSignals } from "@/lib/careFocus";
+import { ConditionSignal, manualConditionSignals } from "@/lib/careFocus";
 
 type UpdateConditionFormProps = {
   dogId: string;
@@ -39,7 +39,7 @@ export function UpdateConditionForm({
       <input name="signal" type="hidden" value={selectedSignal ?? ""} />
 
       <div className="flex flex-col gap-3">
-        {conditionSignals.map((option) => {
+        {manualConditionSignals.map((option) => {
           const isSelected = option === selectedSignal;
 
           return (

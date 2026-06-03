@@ -1,11 +1,11 @@
 import { AppShell } from "@/components/AppShell";
-import { Button } from "@/components/Button";
+import { CareLogActions } from "@/components/CareLogActions";
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 
 export default async function MentalStimulationPage() {
-  await requireActiveDog();
+  const dog = await requireActiveDog();
 
   return (
     <AppShell title="Mental Stimulation">
@@ -44,11 +44,14 @@ export default async function MentalStimulationPage() {
           calm structure helps more than stimulation.
         </p>
       </Card>
-
-      <div className="grid grid-cols-1 gap-3">
-        <Button variant="secondary">Yes, this helped</Button>
-        <Button variant="secondary">Not really</Button>
-      </div>
+      <CareLogActions
+        dogId={dog.id}
+        options={[
+          { key: "mental_stimulation_helped", label: "Helped Max settle" },
+          { key: "still_restless", label: "Still restless" },
+        ]}
+        title="Did this help?"
+      />
     </AppShell>
   );
 }

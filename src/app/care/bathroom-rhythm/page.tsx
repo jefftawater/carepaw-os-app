@@ -1,10 +1,11 @@
 import { AppShell } from "@/components/AppShell";
+import { CareLogActions } from "@/components/CareLogActions";
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 
 export default async function BathroomRhythmPage() {
-  await requireActiveDog();
+  const dog = await requireActiveDog();
 
   return (
     <AppShell title="Bathroom Rhythm">
@@ -33,6 +34,15 @@ export default async function BathroomRhythmPage() {
           <li>Assuming yesterday&apos;s timing still works</li>
         </ul>
       </Card>
+
+      <CareLogActions
+        dogId={dog.id}
+        options={[
+          { key: "bathroom_normal", label: "Timing felt normal" },
+          { key: "bathroom_changes", label: "Bathroom changes today" },
+        ]}
+        title="Log bathroom rhythm"
+      />
     </AppShell>
   );
 }

@@ -2,6 +2,7 @@ import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
 import {
   defaultFocus,
+  getConditionSignalLabel,
   getFocusForSignal,
 } from "@/lib/careFocus";
 import { ConditionUpdate } from "@/lib/conditionUpdates";
@@ -23,7 +24,7 @@ export function TodayFocus({ latestUpdate }: TodayFocusProps) {
       </p>
       {latestUpdate ? (
         <p className="mt-3 text-sm leading-6 text-muted">
-          Latest update: {latestUpdate.signal}
+          Latest update: {getConditionSignalLabel(latestUpdate.signal)}
         </p>
       ) : (
         <p className="mt-3 text-sm leading-6 text-muted">

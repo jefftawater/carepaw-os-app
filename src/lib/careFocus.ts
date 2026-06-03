@@ -4,9 +4,21 @@ export const conditionSignals = [
   "More uncomfortable",
   "More restless",
   "Bathroom changes",
+  "mental_stimulation_helped",
+  "more_restless",
+  "bathroom_normal",
+  "bathroom_changes",
 ] as const;
 
 export type ConditionSignal = (typeof conditionSignals)[number];
+
+export const manualConditionSignals = [
+  "About the same",
+  "A little worse",
+  "More uncomfortable",
+  "More restless",
+  "Bathroom changes",
+] as const satisfies readonly ConditionSignal[];
 
 export type FocusContent = {
   bullets: string[];
@@ -37,6 +49,26 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     ],
     reassurance: "Restless energy is information. Calm structure is enough today.",
   },
+  more_restless: {
+    label: "Mental Stimulation focus",
+    title: "Keep activity calm, close, and predictable today.",
+    bullets: [
+      "Return to a simple, low-movement activity",
+      "Stay nearby without adding excitement",
+      "Lower stimulation if pacing or barking increases",
+    ],
+    reassurance: "Restlessness is useful information. Calm structure is enough today.",
+  },
+  mental_stimulation_helped: {
+    label: "Routine Stability focus",
+    title: "Use the calm activity pattern that helped today.",
+    bullets: [
+      "Repeat the same low-pressure activity when restlessness builds",
+      "Keep the session short and predictable",
+      "Let settling count as the win",
+    ],
+    reassurance: "A small activity that helps settle is worth keeping in the rhythm.",
+  },
   "Bathroom changes": {
     label: "Bathroom Rhythm focus",
     title: "Make the next bathroom window easier to predict.",
@@ -46,6 +78,26 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
       "Look for timing patterns instead of waiting for obvious signals",
     ],
     reassurance: "A steadier rhythm matters more than getting every attempt perfect.",
+  },
+  bathroom_changes: {
+    label: "Bathroom Rhythm focus",
+    title: "Make the next bathroom window easier to predict.",
+    bullets: [
+      "Watch after meds, meals, water, and rest",
+      "Shorten the next interval if accidents increased",
+      "Look for timing patterns instead of waiting for obvious signals",
+    ],
+    reassurance: "A steadier rhythm matters more than getting every attempt perfect.",
+  },
+  bathroom_normal: {
+    label: "Routine Stability focus",
+    title: "Keep the bathroom rhythm steady today.",
+    bullets: [
+      "Stay close to the timing that worked",
+      "Watch for changes without overcorrecting",
+      "Keep support calm and predictable",
+    ],
+    reassurance: "Normal timing is still useful information. Stable days count.",
   },
   "More uncomfortable": {
     label: "Comfort + Pain Cues focus",
@@ -78,6 +130,22 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     reassurance: "Stable days count. Keeping the pattern steady is meaningful.",
   },
 };
+
+export const conditionSignalLabels: Record<ConditionSignal, string> = {
+  "About the same": "About the same",
+  "A little worse": "A little worse",
+  "More uncomfortable": "More uncomfortable",
+  "More restless": "More restless",
+  "Bathroom changes": "Bathroom changes",
+  mental_stimulation_helped: "Mental stimulation helped",
+  more_restless: "More restless",
+  bathroom_normal: "Bathroom timing normal",
+  bathroom_changes: "Bathroom changes",
+};
+
+export function getConditionSignalLabel(signal: ConditionSignal) {
+  return conditionSignalLabels[signal];
+}
 
 export function getFocusForSignal(signal?: ConditionSignal): FocusContent {
   if (!signal) {

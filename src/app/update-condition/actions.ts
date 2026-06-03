@@ -1,20 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { ConditionSignal } from "@/lib/careFocus";
+import { ConditionSignal, manualConditionSignals } from "@/lib/careFocus";
 import { createConditionUpdate } from "@/lib/conditionUpdates";
 
 export type SaveConditionUpdateState = {
   error: string;
 };
-
-const validSignals = [
-  "About the same",
-  "A little worse",
-  "More uncomfortable",
-  "More restless",
-  "Bathroom changes",
-];
 
 export async function saveConditionUpdate(
   _previousState: SaveConditionUpdateState,
@@ -28,7 +20,7 @@ export async function saveConditionUpdate(
     return { error: "We couldn't find the dog profile for this update." };
   }
 
-  if (!validSignals.includes(signal)) {
+  if (!(manualConditionSignals as readonly string[]).includes(signal)) {
     return { error: "Choose how your dog is doing today first." };
   }
 

@@ -1,6 +1,6 @@
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
-import { getFocusForSignal } from "@/lib/careFocus";
+import { getConditionSignalLabel, getFocusForSignal } from "@/lib/careFocus";
 import { ConditionUpdate } from "@/lib/conditionUpdates";
 
 const sampleDays = [
@@ -49,7 +49,7 @@ export function HistoryList({ updates }: HistoryListProps) {
                 {formatSavedDateTime(update.created_at)}
               </p>
               <h3 className="mt-2 text-base font-semibold leading-6 text-foreground">
-                {update.signal}
+                {getConditionSignalLabel(update.signal)}
               </h3>
               {update.note ? (
                 <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-secondary">
