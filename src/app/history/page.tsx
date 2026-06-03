@@ -1,13 +1,15 @@
 import { AppShell } from "@/components/AppShell";
 import { HistoryList } from "@/components/HistoryList";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
+import { getConditionUpdates } from "@/lib/conditionUpdates";
 
 export default async function HistoryPage() {
-  await requireActiveDog();
+  const dog = await requireActiveDog();
+  const updates = await getConditionUpdates(dog.id);
 
   return (
     <AppShell title="History">
-      <HistoryList />
+      <HistoryList updates={updates} />
     </AppShell>
   );
 }

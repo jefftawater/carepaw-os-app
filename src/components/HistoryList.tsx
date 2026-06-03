@@ -1,12 +1,7 @@
-"use client";
-
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
-import {
-  notifyCareUpdateChanged,
-  useCareUpdates,
-} from "@/hooks/useLatestCareUpdate";
-import { clearCareUpdates, getFocusForSignal } from "@/lib/careUpdates";
+import { getFocusForSignal } from "@/lib/careFocus";
+import { ConditionUpdate } from "@/lib/conditionUpdates";
 
 const sampleDays = [
   {
@@ -26,6 +21,10 @@ const sampleDays = [
   },
 ];
 
+type HistoryListProps = {
+  updates: ConditionUpdate[];
+};
+
 function formatSavedDateTime(createdAt: string) {
   return new Intl.DateTimeFormat("en-US", {
     day: "numeric",
@@ -35,37 +34,19 @@ function formatSavedDateTime(createdAt: string) {
   }).format(new Date(createdAt));
 }
 
-export function HistoryList() {
-  const savedUpdates = useCareUpdates();
-
-  function handleClearHistory() {
-    clearCareUpdates();
-    notifyCareUpdateChanged();
-  }
-
+export function HistoryList({ updates }: HistoryListProps) {
   return (
     <>
       <section className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3 px-1">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-            Today
-          </h2>
-          {savedUpdates.length > 0 ? (
-            <button
-              className="text-sm font-medium text-muted underline-offset-4 hover:text-secondary hover:underline"
-              onClick={handleClearHistory}
-              type="button"
-            >
-              Clear demo history
-            </button>
-          ) : null}
-        </div>
+        <h2 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted">
+          Today
+        </h2>
 
-        {savedUpdates.length > 0 ? (
-          savedUpdates.map((update) => (
+        {updates.length > 0 ? (
+          updates.map((update) => (
             <Card key={update.id}>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                {formatSavedDateTime(update.createdAt)}
+                {formatSavedDateTime(update.created_at)}
               </p>
               <h3 className="mt-2 text-base font-semibold leading-6 text-foreground">
                 {update.signal}

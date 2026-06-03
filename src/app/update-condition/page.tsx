@@ -16,7 +16,7 @@ export default async function UpdateConditionPage() {
           What feels different from usual?
         </p>
       </Card>
-      <UpdateConditionForm />
+      <UpdateConditionForm dogId={dog.id} dogName={dog.name} />
     </AppShell>
   );
 }

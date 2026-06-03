@@ -1,19 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useActionState, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { saveConditionUpdate } from "@/app/update-condition/actions";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
-import { notifyCareUpdateChanged } from "@/hooks/useLatestCareUpdate";
-import {
-  ConditionSignal,
-  conditionSignals,
-  createCareUpdate,
-  saveCareUpdate,
-} from "@/lib/careUpdates";
+import { ConditionSignal, conditionSignals } from "@/lib/careFocus";
 
-export function UpdateConditionForm() {
-  const router = useRouter();
+type UpdateConditionFormProps = {
+  dogId: string;
+  dogName: string;
+};
+
+export function UpdateConditionForm({
+  dogId,
+  dogName,
+}: UpdateConditionFormProps) {
+  const [state, formAction] = useActionState(saveConditionUpdate, {
+    error: "",
+  });
   const [selectedSignal, setSelectedSignal] =
     useState<ConditionSignal | null>(null);
   const [note, setNote] = useState("");
@@ -21,17 +26,18 @@ export function UpdateConditionForm() {
 
   function handleSave() {
     if (!selectedSignal) {
-      setSavePrompt("Choose how Max is doing today first.");
+      setSavePrompt(`Choose how ${dogName} is doing today first.`);
       return;
     }
 
-    saveCareUpdate(createCareUpdate(selectedSignal, note.trim()));
-    notifyCareUpdateChanged();
-    router.push("/today");
+    setSavePrompt("");
   }
 
   return (
-    <>
+    <form action={formAction} className="contents">
+      <input name="dogId" type="hidden" value={dogId} />
+      <input name="signal" type="hidden" value={selectedSignal ?? ""} />
+
       <div className="flex flex-col gap-3">
         {conditionSignals.map((option) => {
           const isSelected = option === selectedSignal;
@@ -67,19 +73,36 @@ export function UpdateConditionForm() {
         <textarea
           className="mt-3 min-h-28 w-full resize-none rounded-xl border border-border bg-background p-3 text-sm leading-6 text-foreground outline-none placeholder:text-muted focus:border-foreground"
           id="condition-note"
+          name="note"
           onChange={(event) => setNote(event.target.value)}
           placeholder="Add a quick note..."
           value={note}
         />
       </Card>
 
-      {savePrompt ? (
-        <p className="px-1 text-sm leading-6 text-secondary">{savePrompt}</p>
+      {savePrompt || state.error ? (
+        <p className="px-1 text-sm leading-6 text-secondary">
+          {savePrompt || state.error}
+        </p>
       ) : null}
 
-      <Button disabled={!selectedSignal} onClick={handleSave}>
-        Save
-      </Button>
-    </>
+      <SaveButton disabled={!selectedSignal} onClick={handleSave} />
+    </form>
+  );
+}
+
+function SaveButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={disabled || pending} onClick={onClick} type="submit">
+      {pending ? "Saving..." : "Save"}
+    </Button>
   );
 }

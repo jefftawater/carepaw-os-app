@@ -1,15 +1,16 @@
-"use client";
-
 import { Card } from "@/components/Card";
 import { SectionLabel } from "@/components/SectionLabel";
-import { useLatestCareUpdate } from "@/hooks/useLatestCareUpdate";
 import {
   defaultFocus,
   getFocusForSignal,
-} from "@/lib/careUpdates";
+} from "@/lib/careFocus";
+import { ConditionUpdate } from "@/lib/conditionUpdates";
 
-export function TodayFocus() {
-  const latestUpdate = useLatestCareUpdate();
+type TodayFocusProps = {
+  latestUpdate: ConditionUpdate | null;
+};
+
+export function TodayFocus({ latestUpdate }: TodayFocusProps) {
   const focus = latestUpdate
     ? getFocusForSignal(latestUpdate.signal)
     : defaultFocus;

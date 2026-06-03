@@ -3,13 +3,15 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { TodayFocus } from "@/components/TodayFocus";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
+import { getLatestConditionUpdate } from "@/lib/conditionUpdates";
 
 export default async function TodayPage() {
   const dog = await requireActiveDog();
+  const latestUpdate = await getLatestConditionUpdate(dog.id);
 
   return (
     <AppShell title={`${dog.name} - Today`}>
-      <TodayFocus />
+      <TodayFocus latestUpdate={latestUpdate} />
 
       <Card>
         <label
