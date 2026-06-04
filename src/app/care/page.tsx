@@ -38,6 +38,11 @@ const careCategories = [
     description: "Nails, ears, meds, supplies, and weekly care tasks",
     href: "/care/routine-reminders",
   },
+  {
+    title: "Home setup",
+    description: "Beds, lifting, traction, and care supplies",
+    href: "/care/home-setup",
+  },
 ];
 
 export default async function CarePage() {

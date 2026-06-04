@@ -76,6 +76,16 @@ const careLogActions: Record<
     signal: "routine_missed",
     success: "Logged a missed routine task.",
   },
+  home_setup_helped: {
+    note: "Home setup helped make care easier today.",
+    signal: "home_setup_helped",
+    success: "Logged that home setup helped.",
+  },
+  home_setup_needs_attention: {
+    note: "Home setup needs attention today.",
+    signal: "home_setup_needs_attention",
+    success: "Logged that home setup needs attention.",
+  },
 };
 
 export async function logCareAction(

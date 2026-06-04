@@ -16,6 +16,8 @@ export const conditionSignals = [
   "mobility_more_difficult",
   "routine_completed",
   "routine_missed",
+  "home_setup_helped",
+  "home_setup_needs_attention",
 ] as const;
 
 export type ConditionSignal = (typeof conditionSignals)[number];
@@ -197,6 +199,26 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     ],
     reassurance: "A missed task does not ruin the day. Resetting gently is enough.",
   },
+  home_setup_helped: {
+    label: "Routine Stability focus",
+    title: "Keep the home setup pattern that made care easier today.",
+    bullets: [
+      "Keep traction and transfer areas predictable",
+      "Leave supplies near the care area",
+      "Repeat the setup choices that reduced stress",
+    ],
+    reassurance: "A home setup that helps is worth keeping simple and consistent.",
+  },
+  home_setup_needs_attention: {
+    label: "Home Setup focus",
+    title: "Make one home setup improvement that reduces slips or stress today.",
+    bullets: [
+      "Check traction in the main movement path",
+      "Move care supplies closer to where transfers happen",
+      "Look for bedding, moisture, or pressure areas that need attention",
+    ],
+    reassurance: "You do not need to fix the whole house today. One useful setup change counts.",
+  },
   "A little worse": {
     label: "Comfort + reduced activity focus",
     title: "Keep the day smaller and easier to move through.",
@@ -237,6 +259,8 @@ export const conditionSignalLabels: Record<ConditionSignal, string> = {
   mobility_more_difficult: "Mobility more difficult",
   routine_completed: "Routine completed",
   routine_missed: "Routine missed",
+  home_setup_helped: "Home setup helped",
+  home_setup_needs_attention: "Home setup needs attention",
 };
 
 export function getConditionSignalLabel(signal: ConditionSignal) {
