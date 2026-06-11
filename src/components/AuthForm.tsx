@@ -11,12 +11,38 @@ type AuthFormProps = {
   mode: "login" | "signup";
 };
 
+type AuthError = {
+  code?: string;
+};
+
+const GENERIC_AUTH_ERROR = "Something went wrong. Please try again.";
+
+function getAuthErrorMessage(error: AuthError, isLogin: boolean) {
+  if (error.code === "email_not_confirmed") {
+    return "Please check your email to confirm your account, then try logging in again.";
+  }
+
+  if (isLogin && error.code === "invalid_credentials") {
+    return "We couldn’t log you in with that email and password. Check for typos and try again.";
+  }
+
+  if (
+    !isLogin &&
+    (error.code === "user_already_exists" || error.code === "email_exists")
+  ) {
+    return "An account may already exist for that email. Try logging in instead.";
+  }
+
+  return GENERIC_AUTH_ERROR;
+}
+
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
   const supabase = createClient();
   const isLogin = mode === "login";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -37,15 +63,11 @@ export function AuthForm({ mode }: AuthFormProps) {
         : await supabase.auth.signUp({ email, password });
 
       if (authResponse.error) {
-        setErrorMessage(
-          isLogin
-            ? "We couldn't log you in with those details."
-            : "We couldn't create that account. Try a different email or password.",
-        );
+        setErrorMessage(getAuthErrorMessage(authResponse.error, isLogin));
         return;
       }
     } catch {
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(GENERIC_AUTH_ERROR);
       return;
     } finally {
       setIsSubmitting(false);
@@ -81,18 +103,34 @@ export function AuthForm({ mode }: AuthFormProps) {
           />
         </label>
 
-        <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
-          Password
-          <input
-            autoComplete={isLogin ? "current-password" : "new-password"}
-            className="h-12 rounded-xl border border-border bg-background px-3 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
-            minLength={6}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-            type="password"
-            value={password}
-          />
-        </label>
+        <div className="flex flex-col gap-2">
+          <label
+            className="text-sm font-medium text-foreground"
+            htmlFor={`${mode}-password`}
+          >
+            Password
+          </label>
+          <span className="relative">
+            <input
+              autoComplete={isLogin ? "current-password" : "new-password"}
+              className="h-12 w-full rounded-xl border border-border bg-background px-3 pr-16 text-base text-foreground outline-none placeholder:text-muted focus:border-primary"
+              id={`${mode}-password`}
+              minLength={6}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+              type={isPasswordVisible ? "text" : "password"}
+              value={password}
+            />
+            <button
+              aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
+              onClick={() => setIsPasswordVisible((visible) => !visible)}
+              type="button"
+            >
+              {isPasswordVisible ? "Hide" : "Show"}
+            </button>
+          </span>
+        </div>
 
         {errorMessage ? (
           <p className="rounded-xl border border-warning-border bg-warning-background p-3 text-sm leading-6 text-warning-text">
