@@ -21,6 +21,14 @@ export default async function ProfilePage() {
   return (
     <AppShell title={`${dog.name} - Profile`}>
       <Card>
+        <p className="text-sm leading-6 text-secondary">
+          Profile stores the details CarePaw uses to personalize Today
+          guidance, including condition, additional conditions, and mobility
+          notes.
+        </p>
+      </Card>
+
+      <Card>
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold leading-7 text-foreground">
@@ -50,7 +58,7 @@ export default async function ProfilePage() {
             className="text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
             href="/profile/edit"
           >
-            Edit profile
+            Edit profile details
           </Link>
         </div>
       </Card>

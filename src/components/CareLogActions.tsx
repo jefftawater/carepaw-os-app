@@ -27,6 +27,9 @@ export function CareLogActions({ dogId, options, title }: CareLogActionsProps) {
   return (
     <Card>
       <SectionLabel>{title}</SectionLabel>
+      <p className="mt-2 text-sm leading-6 text-secondary">
+        Choose an action to save it to History and help adjust Today.
+      </p>
       <form action={formAction} className="mt-4 grid grid-cols-1 gap-3">
         <input name="dogId" type="hidden" value={dogId} />
         {options.map((option) => (

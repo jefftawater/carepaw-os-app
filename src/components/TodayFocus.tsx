@@ -33,12 +33,16 @@ export function TodayFocus({
   return (
     <Card>
       <SectionLabel>{focus.label}</SectionLabel>
+      <p className="mt-2 text-sm leading-6 text-muted">
+        A practical caregiving focus, not a diagnosis.
+      </p>
       <p className="mt-3 text-lg font-semibold leading-7 text-foreground">
         {focus.title}
       </p>
       {latestUpdate ? (
         <p className="mt-3 text-sm leading-6 text-muted">
-          Latest update: {getConditionSignalLabel(latestUpdate.signal)}
+          Based on the latest saved update:{" "}
+          {getConditionSignalLabel(latestUpdate.signal)}
         </p>
       ) : (
         <p className="mt-3 text-sm leading-6 text-muted">
@@ -56,6 +60,9 @@ export function TodayFocus({
       {attentionNote ? (
         <div className="mt-4 rounded-xl border border-border bg-background p-3">
           <SectionLabel>Extra attention today</SectionLabel>
+          <p className="mt-2 text-sm leading-6 text-muted">
+            Based on your dog&apos;s profile.
+          </p>
           <p className="mt-2 text-sm leading-6 text-secondary">
             {attentionNote}
           </p>

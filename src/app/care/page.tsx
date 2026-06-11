@@ -51,9 +51,14 @@ export default async function CarePage() {
   return (
     <AppShell title={`${dog.name} - Care`}>
       <Card>
-        <SectionLabel>Today&apos;s care focus</SectionLabel>
-        <p className="mt-3 text-lg font-semibold leading-7 text-foreground">
-          Keep {dog.name} comfortable, clean, and in rhythm.
+        <SectionLabel>Practical care guidance</SectionLabel>
+        <p className="mt-3 text-sm leading-6 text-secondary">
+          Use Care when you need help with a specific part of daily life:
+          mobility, skin, bathroom rhythm, enrichment, comfort, routines, or
+          home setup.
+        </p>
+        <p className="mt-2 text-sm leading-6 text-muted">
+          Some care pages let you save a quick action to History.
         </p>
       </Card>
 

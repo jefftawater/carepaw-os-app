@@ -102,7 +102,7 @@ function SaveButton({
 
   return (
     <Button disabled={disabled || pending} onClick={onClick} type="submit">
-      {pending ? "Saving..." : "Save"}
+      {pending ? "Saving..." : "Save update to History"}
     </Button>
   );
 }

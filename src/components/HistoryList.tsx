@@ -69,8 +69,8 @@ export function HistoryList({ updates }: HistoryListProps) {
         ) : (
           <Card>
             <p className="text-sm leading-6 text-secondary">
-              No real updates logged yet. Once you save a condition update, it
-              will appear here.
+              No saved updates yet. Log today&apos;s update or save an action
+              from a Care page to start building History.
             </p>
           </Card>
         )}

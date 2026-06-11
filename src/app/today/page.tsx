@@ -11,6 +11,13 @@ export default async function TodayPage() {
 
   return (
     <AppShell title={`${dog.name} - Today`}>
+      <Card>
+        <p className="text-sm leading-6 text-secondary">
+          Today combines your dog&apos;s profile and latest saved update to
+          suggest what to pay attention to next.
+        </p>
+      </Card>
+
       <TodayFocus
         additionalConditions={dog.additional_conditions ?? []}
         dogCondition={dog.condition}
@@ -23,8 +30,9 @@ export default async function TodayPage() {
           Notice something different today?
         </h2>
         <p className="mt-2 text-sm leading-6 text-secondary">
-          Log a quick update so CarePaw can adjust today&apos;s focus and keep
-          the change in History.
+          Use this when something feels different, better, worse, or worth
+          remembering. Your update is saved to History and may adjust
+          today&apos;s focus.
         </p>
         <div className="mt-4">
           <Button href="/update-condition">Log today&apos;s update</Button>
