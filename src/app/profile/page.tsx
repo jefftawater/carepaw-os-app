@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
-import { Button } from "@/components/Button";
 import { CareDisclaimer } from "@/components/CareDisclaimer";
 import { Card } from "@/components/Card";
 import { FeedbackLink } from "@/components/FeedbackLink";
@@ -19,12 +18,16 @@ export default async function ProfilePage() {
   );
 
   return (
-    <AppShell title={`${dog.name} - Profile`}>
+    <AppShell title="Dog profile">
       <Card>
         <p className="text-sm leading-6 text-secondary">
-          Profile stores the details CarePaw uses to personalize Today
-          guidance, including condition, additional conditions, and mobility
-          notes.
+          These details help CarePaw personalize Today guidance. Keep them
+          updated when your dog&apos;s condition, mobility, or care needs
+          change.
+        </p>
+        <p className="mt-2 text-sm leading-6 text-muted">
+          Daily updates are logged from the Today tab. This page is for your
+          dog&apos;s longer-term care context.
         </p>
       </Card>
 
@@ -69,16 +72,6 @@ export default async function ProfilePage() {
           <li>Stay in medication + bathroom rhythm</li>
           <li>Watch for movement fatigue</li>
         </ul>
-      </Card>
-
-      <Card>
-        <SectionLabel>Adjust care</SectionLabel>
-        <p className="mt-3 text-sm leading-6 text-secondary">
-          Record today&apos;s condition signal for Today Focus and History.
-        </p>
-        <div className="mt-3">
-          <Button href="/update-condition">{"Log today's update"}</Button>
-        </div>
       </Card>
 
       <Card>

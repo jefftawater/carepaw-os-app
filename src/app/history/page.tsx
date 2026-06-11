@@ -12,8 +12,8 @@ export default async function HistoryPage() {
     <AppShell title="History">
       <Card>
         <p className="text-sm leading-6 text-secondary">
-          History shows your saved updates and care actions, newest first, so
-          you can notice patterns over time.
+          History shows saved updates and care actions, newest first. This page
+          is read-only.
         </p>
       </Card>
       <HistoryList updates={updates} />

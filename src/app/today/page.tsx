@@ -31,7 +31,7 @@ export default async function TodayPage() {
         </h2>
         <p className="mt-2 text-sm leading-6 text-secondary">
           Use this when something feels different, better, worse, or worth
-          remembering. Your update is saved to History and may adjust
+          remembering today. Your update is saved to History and may adjust
           today&apos;s focus.
         </p>
         <div className="mt-4">
