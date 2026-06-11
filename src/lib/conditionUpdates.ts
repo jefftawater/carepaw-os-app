@@ -100,6 +100,34 @@ export async function getLatestConditionUpdate(dogId: string) {
   return data as ConditionUpdate | null;
 }
 
+export async function getTodayConditionUpdates(dogId: string) {
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("condition_updates")
+    .select("*")
+    .eq("dog_id", dogId)
+    .eq("owner_id", user.id)
+    .gte("created_at", startOfToday.toISOString())
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data as ConditionUpdate[];
+}
+
 export async function getConditionUpdates(dogId: string) {
   const supabase = await createClient();
   const {

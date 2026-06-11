@@ -12,17 +12,19 @@ type TodayFocusProps = {
   additionalConditions: string[];
   dogCondition: string | null;
   dogName: string;
-  latestUpdate: ConditionUpdate | null;
+  focusSource: "default" | "recent" | "today";
+  focusUpdate: ConditionUpdate | null;
 };
 
 export function TodayFocus({
   additionalConditions,
   dogCondition,
   dogName,
-  latestUpdate,
+  focusSource,
+  focusUpdate,
 }: TodayFocusProps) {
-  const focus = latestUpdate
-    ? getFocusForSignal(latestUpdate.signal)
+  const focus = focusUpdate
+    ? getFocusForSignal(focusUpdate.signal)
     : defaultFocus;
   const attentionNote = getConditionAttentionNote(
     dogCondition,
@@ -39,10 +41,12 @@ export function TodayFocus({
       <p className="mt-3 text-lg font-semibold leading-7 text-foreground">
         {focus.title}
       </p>
-      {latestUpdate ? (
+      {focusUpdate ? (
         <p className="mt-3 text-sm leading-6 text-muted">
-          Based on the latest saved update:{" "}
-          {getConditionSignalLabel(latestUpdate.signal)}
+          {focusSource === "today"
+            ? "Using today's highest-priority update"
+            : "Using most recent saved update"}
+          : {getConditionSignalLabel(focusUpdate.signal)}
         </p>
       ) : (
         <p className="mt-3 text-sm leading-6 text-muted">

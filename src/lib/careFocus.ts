@@ -22,6 +22,44 @@ export const conditionSignals = [
 
 export type ConditionSignal = (typeof conditionSignals)[number];
 
+const todayFocusPriority: Record<ConditionSignal, number> = {
+  skin_concern: 1,
+  "More uncomfortable": 2,
+  more_uncomfortable: 2,
+  mobility_more_difficult: 3,
+  "Bathroom changes": 4,
+  bathroom_changes: 4,
+  "More restless": 5,
+  more_restless: 5,
+  routine_missed: 6,
+  home_setup_needs_attention: 7,
+  "A little worse": 8,
+  "About the same": 9,
+  comfort_stable: 10,
+  bathroom_normal: 11,
+  skin_checked_clear: 12,
+  mobility_supported: 13,
+  routine_completed: 14,
+  mental_stimulation_helped: 15,
+  home_setup_helped: 16,
+};
+
+export function selectTodayFocusUpdate<T extends { signal: ConditionSignal }>(
+  updates: readonly T[],
+) {
+  return updates.reduce<T | null>((selectedUpdate, update) => {
+    if (
+      !selectedUpdate ||
+      todayFocusPriority[update.signal] <
+        todayFocusPriority[selectedUpdate.signal]
+    ) {
+      return update;
+    }
+
+    return selectedUpdate;
+  }, null);
+}
+
 export const manualConditionSignals = [
   "About the same",
   "A little worse",
