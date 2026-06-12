@@ -13,7 +13,8 @@ export default async function UpdateConditionPage() {
           How is {dog.name} today?
         </h2>
         <p className="mt-1 text-sm leading-6 text-secondary">
-          What feels different from usual?
+          Choose the main thing you want CarePaw to remember from today. You can
+          add a note if there&apos;s useful detail.
         </p>
       </Card>
       <UpdateConditionForm dogId={dog.id} dogName={dog.name} />

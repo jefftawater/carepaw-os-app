@@ -4,16 +4,25 @@ export const conditionSignals = [
   "More uncomfortable",
   "More restless",
   "Bathroom changes",
+  "about_the_same",
+  "a_little_worse",
+  "better_than_usual",
   "mental_stimulation_helped",
   "more_restless",
+  "lower_energy",
+  "appetite_changed",
   "bathroom_normal",
   "bathroom_changes",
+  "bathroom_accident",
   "comfort_stable",
   "more_uncomfortable",
   "skin_checked_clear",
   "skin_concern",
+  "hygiene_moisture_concern",
   "mobility_supported",
   "mobility_more_difficult",
+  "needed_more_help_moving",
+  "traction_trouble",
   "routine_completed",
   "routine_missed",
   "home_setup_helped",
@@ -24,24 +33,33 @@ export type ConditionSignal = (typeof conditionSignals)[number];
 
 const todayFocusPriority: Record<ConditionSignal, number> = {
   skin_concern: 1,
-  "More uncomfortable": 2,
-  more_uncomfortable: 2,
-  mobility_more_difficult: 3,
-  "Bathroom changes": 4,
-  bathroom_changes: 4,
-  "More restless": 5,
-  more_restless: 5,
-  routine_missed: 6,
-  home_setup_needs_attention: 7,
-  "A little worse": 8,
-  "About the same": 9,
-  comfort_stable: 10,
-  bathroom_normal: 11,
-  skin_checked_clear: 12,
-  mobility_supported: 13,
-  routine_completed: 14,
-  mental_stimulation_helped: 15,
-  home_setup_helped: 16,
+  hygiene_moisture_concern: 2,
+  "More uncomfortable": 3,
+  more_uncomfortable: 3,
+  mobility_more_difficult: 4,
+  needed_more_help_moving: 5,
+  traction_trouble: 6,
+  "Bathroom changes": 7,
+  bathroom_changes: 7,
+  bathroom_accident: 8,
+  appetite_changed: 9,
+  lower_energy: 10,
+  "More restless": 11,
+  more_restless: 11,
+  routine_missed: 12,
+  home_setup_needs_attention: 13,
+  "A little worse": 14,
+  a_little_worse: 14,
+  "About the same": 15,
+  about_the_same: 15,
+  better_than_usual: 16,
+  comfort_stable: 17,
+  bathroom_normal: 18,
+  skin_checked_clear: 19,
+  mobility_supported: 20,
+  routine_completed: 21,
+  mental_stimulation_helped: 22,
+  home_setup_helped: 23,
 };
 
 export function selectTodayFocusUpdate<T extends { signal: ConditionSignal }>(
@@ -60,13 +78,74 @@ export function selectTodayFocusUpdate<T extends { signal: ConditionSignal }>(
   }, null);
 }
 
-export const manualConditionSignals = [
-  "About the same",
-  "A little worse",
-  "More uncomfortable",
-  "More restless",
-  "Bathroom changes",
-] as const satisfies readonly ConditionSignal[];
+export const manualConditionSignalGroups = [
+  {
+    label: "Overall",
+    options: [
+      { label: "About the same", signal: "about_the_same" },
+      { label: "A little worse", signal: "a_little_worse" },
+      { label: "Better than usual", signal: "better_than_usual" },
+    ],
+  },
+  {
+    label: "Comfort + behavior",
+    options: [
+      { label: "More uncomfortable", signal: "more_uncomfortable" },
+      { label: "More restless", signal: "more_restless" },
+      { label: "Lower energy / less interested", signal: "lower_energy" },
+      { label: "Appetite changed", signal: "appetite_changed" },
+    ],
+  },
+  {
+    label: "Mobility",
+    options: [
+      { label: "Mobility more difficult", signal: "mobility_more_difficult" },
+      { label: "Needed more help moving", signal: "needed_more_help_moving" },
+      { label: "Slipping / traction trouble", signal: "traction_trouble" },
+      { label: "Mobility support worked", signal: "mobility_supported" },
+    ],
+  },
+  {
+    label: "Bathroom",
+    options: [
+      { label: "Bathroom changes", signal: "bathroom_changes" },
+      {
+        label: "Bathroom accident / cleanup issue",
+        signal: "bathroom_accident",
+      },
+      { label: "Bathroom timing normal", signal: "bathroom_normal" },
+    ],
+  },
+  {
+    label: "Skin + hygiene",
+    options: [
+      { label: "Skin or pressure concern", signal: "skin_concern" },
+      { label: "Skin check looked okay", signal: "skin_checked_clear" },
+      {
+        label: "Hygiene or moisture concern",
+        signal: "hygiene_moisture_concern",
+      },
+    ],
+  },
+  {
+    label: "Routine + setup",
+    options: [
+      { label: "Routine completed", signal: "routine_completed" },
+      { label: "Routine missed", signal: "routine_missed" },
+      {
+        label: "Home setup needs attention",
+        signal: "home_setup_needs_attention",
+      },
+    ],
+  },
+] as const satisfies readonly {
+  label: string;
+  options: readonly { label: string; signal: ConditionSignal }[];
+}[];
+
+export const manualConditionSignals = manualConditionSignalGroups.flatMap(
+  (group) => group.options.map((option) => option.signal),
+);
 
 export type FocusContent = {
   bullets: string[];
@@ -87,6 +166,26 @@ export const defaultFocus: FocusContent = {
 };
 
 export const focusBySignal: Record<ConditionSignal, FocusContent> = {
+  lower_energy: {
+    label: "Comfort + reduced activity focus",
+    title: "Keep the day gentle and watch what still feels engaging.",
+    bullets: [
+      "Offer familiar food, water, and contact without pressure",
+      "Reduce unnecessary movement and activity",
+      "Notice whether energy improves after quiet rest",
+    ],
+    reassurance: "Lower energy is useful information. A quieter day can still be good care.",
+  },
+  appetite_changed: {
+    label: "Comfort + routine focus",
+    title: "Keep meals calm and notice the pattern around appetite today.",
+    bullets: [
+      "Offer the usual food and water without pressure",
+      "Notice whether timing, comfort, or activity affects interest",
+      "Keep a simple note of what was offered and accepted",
+    ],
+    reassurance: "Appetite changes are worth tracking. You do not have to solve the pattern all at once.",
+  },
   "More restless": {
     label: "Mental Stimulation focus",
     title: "Keep activity calm, close, and predictable today.",
@@ -136,6 +235,16 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
       "Look for timing patterns instead of waiting for obvious signals",
     ],
     reassurance: "A steadier rhythm matters more than getting every attempt perfect.",
+  },
+  bathroom_accident: {
+    label: "Bathroom Rhythm focus",
+    title: "Make the next bathroom window and cleanup easier to manage.",
+    bullets: [
+      "Shorten the next interval if possible",
+      "Keep cleanup supplies close and the area dry",
+      "Notice the timing around meals, water, meds, and rest",
+    ],
+    reassurance: "An accident is information, not failure. Resetting the next window is enough.",
   },
   bathroom_normal: {
     label: "Routine Stability focus",
@@ -197,6 +306,16 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     ],
     reassurance: "Small skin changes are easier to support when they are noticed early.",
   },
+  hygiene_moisture_concern: {
+    label: "Skin + Hygiene focus",
+    title: "Prioritize keeping damp or soiled areas clean and dry today.",
+    bullets: [
+      "Check bedding and contact areas for moisture",
+      "Clean and dry gently without repeated rubbing",
+      "Watch for skin changes where moisture returns",
+    ],
+    reassurance: "Small hygiene resets can protect comfort. One clean, dry area at a time is enough.",
+  },
   mobility_supported: {
     label: "Mobility Support maintenance",
     title: "Repeat the support pattern that helped movement feel safer.",
@@ -216,6 +335,26 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
       "Reduce extra transitions where possible",
     ],
     reassurance: "Harder movement days are information. Adjusting support is good care.",
+  },
+  needed_more_help_moving: {
+    label: "Mobility Support focus",
+    title: "Plan for more hands-on support during movement today.",
+    bullets: [
+      "Prepare support before each transition",
+      "Keep movement paths short and clear",
+      "Pause when effort or fatigue starts to build",
+    ],
+    reassurance: "Needing more help is useful information. Safer, smaller movement counts.",
+  },
+  traction_trouble: {
+    label: "Mobility Support focus",
+    title: "Improve traction in the places movement feels least steady.",
+    bullets: [
+      "Add grip along the main movement path",
+      "Clear turns and transfer areas",
+      "Use slow, supported transitions near slippery spots",
+    ],
+    reassurance: "One safer path can make the whole day feel more manageable.",
   },
   routine_completed: {
     label: "Routine Stability focus",
@@ -267,6 +406,16 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     ],
     reassurance: "Scaling back is care, not failure.",
   },
+  a_little_worse: {
+    label: "Comfort + reduced activity focus",
+    title: "Keep the day smaller and easier to move through.",
+    bullets: [
+      "Reduce unnecessary movement and long transitions",
+      "Keep bathroom and medication timing steady",
+      "Notice whether rest helps them return toward baseline",
+    ],
+    reassurance: "Scaling back is care, not failure.",
+  },
   "About the same": {
     label: "Routine Stability focus",
     title: "Stay with the rhythm that is already working.",
@@ -277,6 +426,26 @@ export const focusBySignal: Record<ConditionSignal, FocusContent> = {
     ],
     reassurance: "Stable days count. Keeping the pattern steady is meaningful.",
   },
+  about_the_same: {
+    label: "Routine Stability focus",
+    title: "Stay with the rhythm that is already working.",
+    bullets: [
+      "Keep medication and bathroom timing predictable",
+      "Watch for small changes without overcorrecting",
+      "Use the same calm structure they know",
+    ],
+    reassurance: "Stable days count. Keeping the pattern steady is meaningful.",
+  },
+  better_than_usual: {
+    label: "Routine Stability focus",
+    title: "Keep the supportive rhythm behind today's better moments.",
+    bullets: [
+      "Repeat the care timing and support that worked",
+      "Enjoy the better day without adding too much activity",
+      "Notice what felt easier than usual",
+    ],
+    reassurance: "Better moments are worth remembering. Keeping the day steady helps them count.",
+  },
 };
 
 export const conditionSignalLabels: Record<ConditionSignal, string> = {
@@ -285,24 +454,78 @@ export const conditionSignalLabels: Record<ConditionSignal, string> = {
   "More uncomfortable": "More uncomfortable",
   "More restless": "More restless",
   "Bathroom changes": "Bathroom changes",
+  about_the_same: "About the same",
+  a_little_worse: "A little worse",
+  better_than_usual: "Better than usual",
   mental_stimulation_helped: "Mental stimulation helped",
   more_restless: "More restless",
+  lower_energy: "Lower energy / less interested",
+  appetite_changed: "Appetite changed",
   bathroom_normal: "Bathroom timing normal",
   bathroom_changes: "Bathroom changes",
+  bathroom_accident: "Bathroom accident / cleanup issue",
   comfort_stable: "Comfort looked stable",
   more_uncomfortable: "More uncomfortable",
-  skin_checked_clear: "Skin check clear",
-  skin_concern: "Skin concern",
+  skin_checked_clear: "Skin check looked okay",
+  skin_concern: "Skin or pressure concern",
+  hygiene_moisture_concern: "Hygiene or moisture concern",
   mobility_supported: "Mobility support worked",
   mobility_more_difficult: "Mobility more difficult",
+  needed_more_help_moving: "Needed more help moving",
+  traction_trouble: "Slipping / traction trouble",
   routine_completed: "Routine completed",
   routine_missed: "Routine missed",
   home_setup_helped: "Home setup helped",
   home_setup_needs_attention: "Home setup needs attention",
 };
 
-export function getConditionSignalLabel(signal: ConditionSignal) {
-  return conditionSignalLabels[signal];
+const conditionSignalCategories: Record<ConditionSignal, string> = {
+  "About the same": "Overall",
+  "A little worse": "Overall",
+  "More uncomfortable": "Comfort + behavior",
+  "More restless": "Comfort + behavior",
+  "Bathroom changes": "Bathroom",
+  about_the_same: "Overall",
+  a_little_worse: "Overall",
+  better_than_usual: "Overall",
+  mental_stimulation_helped: "Comfort + behavior",
+  more_restless: "Comfort + behavior",
+  lower_energy: "Comfort + behavior",
+  appetite_changed: "Comfort + behavior",
+  bathroom_normal: "Bathroom",
+  bathroom_changes: "Bathroom",
+  bathroom_accident: "Bathroom",
+  comfort_stable: "Comfort + behavior",
+  more_uncomfortable: "Comfort + behavior",
+  skin_checked_clear: "Skin + hygiene",
+  skin_concern: "Skin + hygiene",
+  hygiene_moisture_concern: "Skin + hygiene",
+  mobility_supported: "Mobility",
+  mobility_more_difficult: "Mobility",
+  needed_more_help_moving: "Mobility",
+  traction_trouble: "Mobility",
+  routine_completed: "Routine + setup",
+  routine_missed: "Routine + setup",
+  home_setup_helped: "Routine + setup",
+  home_setup_needs_attention: "Routine + setup",
+};
+
+function cleanSignalLabel(signal: string) {
+  const cleaned = signal.replaceAll("_", " ").trim();
+
+  if (!cleaned) {
+    return "Update";
+  }
+
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
+export function getConditionSignalLabel(signal: string) {
+  return conditionSignalLabels[signal as ConditionSignal] ?? cleanSignalLabel(signal);
+}
+
+export function getConditionSignalCategory(signal: string) {
+  return conditionSignalCategories[signal as ConditionSignal] ?? "Update";
 }
 
 export function getFocusForSignal(signal?: ConditionSignal): FocusContent {

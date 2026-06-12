@@ -5,7 +5,10 @@ import { useFormStatus } from "react-dom";
 import { saveConditionUpdate } from "@/app/update-condition/actions";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
-import { ConditionSignal, manualConditionSignals } from "@/lib/careFocus";
+import {
+  ConditionSignal,
+  manualConditionSignalGroups,
+} from "@/lib/careFocus";
 
 type UpdateConditionFormProps = {
   dogId: string;
@@ -36,32 +39,45 @@ export function UpdateConditionForm({
   return (
     <form action={formAction} className="contents">
       <input name="dogId" type="hidden" value={dogId} />
-      <input name="signal" type="hidden" value={selectedSignal ?? ""} />
 
-      <div className="flex flex-col gap-3">
-        {manualConditionSignals.map((option) => {
-          const isSelected = option === selectedSignal;
+      {manualConditionSignalGroups.map((group) => (
+        <Card key={group.label}>
+          <fieldset>
+            <legend className="px-1 text-xs font-semibold uppercase tracking-wide text-muted">
+              {group.label}
+            </legend>
+            <div className="mt-2 flex flex-col gap-2">
+              {group.options.map((option) => {
+                const isSelected = option.signal === selectedSignal;
 
-          return (
-            <button
-              aria-pressed={isSelected}
-              className={`w-full rounded-xl border p-4 text-left text-base font-medium leading-6 shadow-sm shadow-black/[0.02] transition-colors ${
-                isSelected
-                  ? "border-primary bg-soft text-foreground ring-1 ring-primary/10"
-                  : "border-border bg-card text-foreground hover:bg-soft"
-              }`}
-              key={option}
-              onClick={() => {
-                setSelectedSignal(option);
-                setSavePrompt("");
-              }}
-              type="button"
-            >
-              {option}
-            </button>
-          );
-        })}
-      </div>
+                return (
+                  <label
+                    className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 text-sm font-medium leading-5 transition-colors ${
+                      isSelected
+                        ? "border-primary bg-soft text-foreground ring-1 ring-primary/10"
+                        : "border-border bg-background text-foreground hover:bg-soft"
+                    }`}
+                    key={option.signal}
+                  >
+                    <input
+                      checked={isSelected}
+                      className="h-4 w-4 shrink-0 accent-primary"
+                      name="signal"
+                      onChange={() => {
+                        setSelectedSignal(option.signal);
+                        setSavePrompt("");
+                      }}
+                      type="radio"
+                      value={option.signal}
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
+        </Card>
+      ))}
 
       <Card>
         <label
