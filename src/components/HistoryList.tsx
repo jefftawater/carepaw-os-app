@@ -1,6 +1,10 @@
 import { Card } from "@/components/Card";
+import { HistoryEntryCard } from "@/components/HistoryEntryCard";
 import { SectionLabel } from "@/components/SectionLabel";
-import { getConditionSignalLabel, getFocusForSignal } from "@/lib/careFocus";
+import {
+  getConditionSignalCategory,
+  getConditionSignalLabel,
+} from "@/lib/careFocus";
 import { ConditionUpdate } from "@/lib/conditionUpdates";
 
 const sampleDays = [
@@ -22,49 +26,42 @@ const sampleDays = [
 ];
 
 type HistoryListProps = {
+  additionalConditionLabels: string[];
+  dogName: string;
+  mobilityNotes: string | null;
+  primaryConditionLabel: string;
   updates: ConditionUpdate[];
 };
 
-function formatSavedDateTime(createdAt: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    month: "short",
-  }).format(new Date(createdAt));
-}
-
-export function HistoryList({ updates }: HistoryListProps) {
+export function HistoryList({
+  additionalConditionLabels,
+  dogName,
+  mobilityNotes,
+  primaryConditionLabel,
+  updates,
+}: HistoryListProps) {
   const hasRealUpdates = updates.length > 0;
 
   return (
     <>
       <section className="flex flex-col gap-3">
         <h2 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted">
-          Today
+          Saved entries
         </h2>
 
         {hasRealUpdates ? (
           updates.map((update) => (
-            <Card key={update.id}>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                {formatSavedDateTime(update.created_at)}
-              </p>
-              <h3 className="mt-2 text-base font-semibold leading-6 text-foreground">
-                {getConditionSignalLabel(update.signal)}
-              </h3>
-              {update.note ? (
-                <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-secondary">
-                  {update.note}
-                </p>
-              ) : null}
-              <div className="mt-4 rounded-xl border border-soft-border bg-soft p-3">
-                <SectionLabel>Insight</SectionLabel>
-                <p className="mt-2 text-sm leading-6 text-secondary">
-                  {getFocusForSignal(update.signal).label}
-                </p>
-              </div>
-            </Card>
+            <HistoryEntryCard
+              additionalConditionLabels={additionalConditionLabels}
+              category={getConditionSignalCategory(update.signal)}
+              createdAt={update.created_at}
+              dogName={dogName}
+              key={update.id}
+              label={getConditionSignalLabel(update.signal)}
+              mobilityNotes={mobilityNotes}
+              note={update.note}
+              primaryConditionLabel={primaryConditionLabel}
+            />
           ))
         ) : (
           <Card>

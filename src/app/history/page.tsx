@@ -3,6 +3,10 @@ import { Card } from "@/components/Card";
 import { HistoryList } from "@/components/HistoryList";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 import { getConditionUpdates } from "@/lib/conditionUpdates";
+import {
+  getDogConditionLabel,
+  getDogConditionLabels,
+} from "@/lib/dogConditions";
 
 export default async function HistoryPage() {
   const dog = await requireActiveDog();
@@ -16,7 +20,15 @@ export default async function HistoryPage() {
           is read-only.
         </p>
       </Card>
-      <HistoryList updates={updates} />
+      <HistoryList
+        additionalConditionLabels={getDogConditionLabels(
+          dog.additional_conditions ?? [],
+        )}
+        dogName={dog.name}
+        mobilityNotes={dog.mobility_notes}
+        primaryConditionLabel={getDogConditionLabel(dog.condition)}
+        updates={updates}
+      />
     </AppShell>
   );
 }
