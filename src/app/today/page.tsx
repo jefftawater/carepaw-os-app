@@ -2,6 +2,7 @@ import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { TodayFocus } from "@/components/TodayFocus";
+import { TodayTimestamp } from "@/components/TodayTimestamp";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 import { selectTodayFocusUpdate } from "@/lib/careFocus";
 import {
@@ -23,6 +24,8 @@ export default async function TodayPage() {
 
   return (
     <AppShell title={`${dog.name} - Today`}>
+      <TodayTimestamp />
+
       <Card>
         <p className="text-sm leading-6 text-secondary">
           Today combines your dog&apos;s profile and saved updates to suggest
