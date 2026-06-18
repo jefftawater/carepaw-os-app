@@ -100,6 +100,33 @@ export async function getLatestConditionUpdate(dogId: string) {
   return data as ConditionUpdate | null;
 }
 
+export async function getLatestFocusConditionUpdate(dogId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("condition_updates")
+    .select("*")
+    .eq("dog_id", dogId)
+    .eq("owner_id", user.id)
+    .neq("signal", "daily_note")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data as ConditionUpdate | null;
+}
+
 export async function getTodayConditionUpdates(dogId: string) {
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);

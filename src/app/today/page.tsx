@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/AppShell";
+import { AddTodayNoteForm } from "@/components/AddTodayNoteForm";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { TodayFocus } from "@/components/TodayFocus";
@@ -7,7 +8,7 @@ import { TodayTimestamp } from "@/components/TodayTimestamp";
 import { requireActiveDog } from "@/lib/auth/requireActiveDog";
 import { selectTodayFocusUpdate } from "@/lib/careFocus";
 import {
-  getLatestConditionUpdate,
+  getLatestFocusConditionUpdate,
   getTodayConditionUpdates,
 } from "@/lib/conditionUpdates";
 
@@ -16,7 +17,7 @@ export default async function TodayPage() {
   const todayUpdates = await getTodayConditionUpdates(dog.id);
   const selectedTodayUpdate = selectTodayFocusUpdate(todayUpdates);
   const focusUpdate =
-    selectedTodayUpdate ?? (await getLatestConditionUpdate(dog.id));
+    selectedTodayUpdate ?? (await getLatestFocusConditionUpdate(dog.id));
   const focusSource = selectedTodayUpdate
     ? "today"
     : focusUpdate
@@ -37,6 +38,8 @@ export default async function TodayPage() {
           today, CarePaw uses the most recent saved update.
         </p>
       </Card>
+
+      <AddTodayNoteForm dogId={dog.id} />
 
       <TodayNotesTimeline updates={todayUpdates} />
 

@@ -13,13 +13,15 @@ type TodayNotesTimelineProps = {
 };
 
 export function TodayNotesTimeline({ updates }: TodayNotesTimelineProps) {
-  const sortedUpdates = useMemo(
+  const noteUpdates = useMemo(
     () =>
-      [...updates].sort(
-        (first, second) =>
-          new Date(first.created_at).getTime() -
-          new Date(second.created_at).getTime(),
-      ),
+      [...updates]
+        .filter((update) => update.note.trim().length > 0)
+        .sort(
+          (first, second) =>
+            new Date(first.created_at).getTime() -
+            new Date(second.created_at).getTime(),
+        ),
     [updates],
   );
 
@@ -33,9 +35,9 @@ export function TodayNotesTimeline({ updates }: TodayNotesTimelineProps) {
         today&apos;s list.
       </p>
 
-      {sortedUpdates.length > 0 ? (
+      {noteUpdates.length > 0 ? (
         <ol className="mt-4 space-y-3">
-          {sortedUpdates.map((update) => (
+          {noteUpdates.map((update) => (
             <TodayNotesTimelineItem key={update.id} update={update} />
           ))}
         </ol>
@@ -50,7 +52,6 @@ export function TodayNotesTimeline({ updates }: TodayNotesTimelineProps) {
 
 function TodayNotesTimelineItem({ update }: { update: ConditionUpdate }) {
   const [time, setTime] = useState("");
-  const hasNote = update.note.trim().length > 0;
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -80,11 +81,9 @@ function TodayNotesTimelineItem({ update }: { update: ConditionUpdate }) {
           {time || "Saved today"}
         </time>
       </div>
-      {hasNote ? (
-        <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-secondary">
-          {update.note}
-        </p>
-      ) : null}
+      <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-secondary">
+        {update.note}
+      </p>
     </li>
   );
 }

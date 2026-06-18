@@ -27,11 +27,19 @@ export const conditionSignals = [
   "routine_missed",
   "home_setup_helped",
   "home_setup_needs_attention",
+  "daily_note",
 ] as const;
 
 export type ConditionSignal = (typeof conditionSignals)[number];
+type FocusConditionSignal = Exclude<ConditionSignal, "daily_note">;
 
-const todayFocusPriority: Record<ConditionSignal, number> = {
+function isFocusConditionSignal(
+  signal: ConditionSignal,
+): signal is FocusConditionSignal {
+  return signal !== "daily_note";
+}
+
+const todayFocusPriority: Record<FocusConditionSignal, number> = {
   skin_concern: 1,
   hygiene_moisture_concern: 2,
   "More uncomfortable": 3,
@@ -66,11 +74,15 @@ export function selectTodayFocusUpdate<T extends { signal: ConditionSignal }>(
   updates: readonly T[],
 ) {
   return updates.reduce<T | null>((selectedUpdate, update) => {
-    if (
-      !selectedUpdate ||
-      todayFocusPriority[update.signal] <
-        todayFocusPriority[selectedUpdate.signal]
-    ) {
+    if (!isFocusConditionSignal(update.signal)) {
+      return selectedUpdate;
+    }
+
+    if (!selectedUpdate || !isFocusConditionSignal(selectedUpdate.signal)) {
+      return update;
+    }
+
+    if (todayFocusPriority[update.signal] < todayFocusPriority[selectedUpdate.signal]) {
       return update;
     }
 
@@ -165,7 +177,7 @@ export const defaultFocus: FocusContent = {
   reassurance: "You don't have to manage everything - staying in rhythm is enough.",
 };
 
-export const focusBySignal: Record<ConditionSignal, FocusContent> = {
+export const focusBySignal: Record<FocusConditionSignal, FocusContent> = {
   lower_energy: {
     label: "Comfort + reduced activity focus",
     title: "Keep the day gentle and watch what still feels engaging.",
@@ -477,6 +489,7 @@ export const conditionSignalLabels: Record<ConditionSignal, string> = {
   routine_missed: "Routine missed",
   home_setup_helped: "Home setup helped",
   home_setup_needs_attention: "Home setup needs attention",
+  daily_note: "Daily note",
 };
 
 const conditionSignalCategories: Record<ConditionSignal, string> = {
@@ -508,6 +521,7 @@ const conditionSignalCategories: Record<ConditionSignal, string> = {
   routine_missed: "Routine + setup",
   home_setup_helped: "Routine + setup",
   home_setup_needs_attention: "Routine + setup",
+  daily_note: "Today's notes",
 };
 
 function cleanSignalLabel(signal: string) {
@@ -529,7 +543,7 @@ export function getConditionSignalCategory(signal: string) {
 }
 
 export function getFocusForSignal(signal?: ConditionSignal): FocusContent {
-  if (!signal) {
+  if (!signal || !isFocusConditionSignal(signal)) {
     return defaultFocus;
   }
 
