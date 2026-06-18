@@ -84,14 +84,14 @@ export function UpdateConditionForm({
           className="text-base font-semibold leading-6 text-foreground"
           htmlFor="condition-note"
         >
-          Anything else you noticed?
+          Add anything you remembered or noticed later
         </label>
         <textarea
           className="mt-3 min-h-28 w-full resize-none rounded-xl border border-border bg-background p-3 text-sm leading-6 text-foreground outline-none placeholder:text-muted focus:border-primary"
           id="condition-note"
           name="note"
           onChange={(event) => setNote(event.target.value)}
-          placeholder="Add a quick note..."
+          placeholder="Add a quick note or detail..."
           value={note}
         />
       </Card>
@@ -118,7 +118,7 @@ function SaveButton({
 
   return (
     <Button disabled={disabled || pending} onClick={onClick} type="submit">
-      {pending ? "Saving..." : "Save update to History"}
+      {pending ? "Saving..." : "Add update to today's notes"}
     </Button>
   );
 }
